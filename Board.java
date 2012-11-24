@@ -131,6 +131,48 @@ public class Board {
 		if((from < 0) || (to<0) || (from>27) || (to>27)) {
 			return false;
 		}
+		if(col==W) {
+			if(positions[to].getCol()==B && positions[to].getNum()>1) {
+				return false;
+			}
+		} else {
+			if(positions[to].getCol()==W && positions[to].getNum()>1) {
+				return false;
+			}
+		}
+		return true;
 	}
-
+	
+	public void print() {
+		
+		for(int i=11; i>=0; i--) {
+			printHelp(i);
+		}
+		
+		System.out.println("\n|\t\t\t\t\t\t|");
+		
+		for(int i=12; i<24; i++) {
+			printHelp(i);
+		}
+		
+		System.out.println("\n");
+		System.out.println("eaten pills : <w"+positions[24].getNum()+
+						   "> <b"+positions[25].getNum()+">");
+		System.out.println("pills out : <w"+positions[26].getNum()+
+						   "> <b"+positions[27].getNum()+">");
+		
+	}
+	
+	public void printHelp(int i) {
+	
+		if(positions[i].getNum()==0) {
+				System.out.print("<  >");
+			} else {
+				if(positions[i].getCol()==W) {
+					System.out.print("<w"+positions[i].getNum()+">");
+				} else {
+					System.out.print("<b"+positions[i].getNum()+">");
+				}
+			}	
+	}
 }
