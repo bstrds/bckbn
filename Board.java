@@ -14,7 +14,7 @@ public class Board {
 	public Board() {
 		
 		lastMove = new Move();
-		lastColorPlayed = 0;
+		lastColorPlayed = B;
 		positions = new Position[28];
 		for(int i=0; i<28; i++) {
 			positions[i] = new Position();
@@ -124,6 +124,9 @@ public class Board {
 		}
 		positions[to].incr();
 		positions[to].setCol(col);
+		
+		lastMove = new Move(from, to, col);
+		lastColorPlayed = col;
 	}
 	
 	public boolean moveIsLegal(int from, int to, int col) {
@@ -140,7 +143,19 @@ public class Board {
 				return false;
 			}
 		}
+		if(positions[from].getCol() != col) {
+			return false;
+		}
 		return true;
+	}
+	
+	public boolean isTerminal() {
+		
+		if(positions[26].getNum()==15 || positions[27].getNum()==15) {
+			
+			return true;
+		}
+		return false;
 	}
 	
 	public void print() {
@@ -165,14 +180,14 @@ public class Board {
 	
 	public void printHelp(int i) {
 	
-		if(positions[i].getNum()==0) {
+		if(positions[i].getCol()==EMPTY) {
 				System.out.print("<  >");
+		} else {
+			if(positions[i].getCol()==W) {
+				System.out.print("<w"+positions[i].getNum()+">");
 			} else {
-				if(positions[i].getCol()==W) {
-					System.out.print("<w"+positions[i].getNum()+">");
-				} else {
-					System.out.print("<b"+positions[i].getNum()+">");
-				}
-			}	
+				System.out.print("<b"+positions[i].getNum()+">");
+			}
+		}	
 	}
 }
