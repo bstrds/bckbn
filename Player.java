@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -28,7 +27,7 @@ public class Player {
 		this.d2 = (int)(Math.random()*6)+1;
 	}
 	
-	public Move inputMove() {
+	public Move inputMove(int d1, int d2) {
 		
 		String fr;
 		String t;
@@ -38,6 +37,11 @@ public class Player {
 		
 		InputStreamReader read = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(read);
+		
+		if(playerColor==Board.W)
+			System.out.println("White rolled "+d1+" and "+d2+" .");
+		else 
+			System.out.println("Black rolled "+d1+" and "+d2+" .");
 		
 		while(!gotit) {
 			try {
