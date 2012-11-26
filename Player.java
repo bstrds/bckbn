@@ -27,42 +27,58 @@ public class Player {
 		this.d2 = (int)(Math.random()*6)+1;
 	}
 	
-	public Move inputMove(int d1, int d2) {
+	public Move[] inputMove(int d1, int d2) {
 		
+		Move[] moves;
 		String fr;
 		String t;
 		int from = -1;
 		int to = -1;
 		boolean gotit = false;
+		boolean dubs = (d1==d2);
 		
-		InputStreamReader read = new InputStreamReader(System.in);
-		BufferedReader in = new BufferedReader(read);
+		if(dubs)
+			moves = new Move[4];
+		else
+			moves = new Move[2];
 		
-		if(playerColor==Board.W)
-			System.out.println("White rolled "+d1+" and "+d2+" .");
-		else 
-			System.out.println("Black rolled "+d1+" and "+d2+" .");
-		
-		while(!gotit) {
-			try {
-				
-				System.out.println("Enter where you want to move from :");
-				fr = in.readLine();
-				from = Integer.parseInt(fr);
-				System.out.println("Enter where you want to move to :");
-				t = in.readLine();
-				to = Integer.parseInt(t);
-				gotit = true;
-				
-			} catch(Exception e) {
-				
-				System.out.println("Try again.");
-				//e.printStackTrace();
+		for(int i=0; i<moves.length; i++) { 
+			
+			InputStreamReader read = new InputStreamReader(System.in);
+			BufferedReader in = new BufferedReader(read);
+			
+			if(playerColor==Board.W)
+				System.out.println("White rolled "+d1+" and "+d2+" .");
+			else 
+				System.out.println("Black rolled "+d1+" and "+d2+" .");
+			
+			while(!gotit) {
+				try {
+					
+					System.out.println("Enter where you want to move from :");
+					fr = in.readLine();
+					from = Integer.parseInt(fr);
+					System.out.println("Enter where you want to move to :");
+					t = in.readLine();
+					to = Integer.parseInt(t);
+					if(Math.abs(from-to) == d1 || Math.abs(from-to) == d2) {
+						gotit = true;
+					} else {
+						System.out.println("You entered an illegal move biatch\n");
+					}
+					
+				} catch(Exception e) {
+					
+					System.out.println("Try again.");
+					//e.printStackTrace();
+				}
 			}
+			gotit = false;
+			moves[i] = new Move(from, to, playerColor);
 		}
 			
-		Move wmove = new Move(from, to, playerColor);
-		return wmove;
+		//Move wmove = new Move(from, to, playerColor);
+		return moves;
 	}
 	
 	public int getD1() {
