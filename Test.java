@@ -5,6 +5,10 @@ public class Test {
 		Player Bplayer = new Player(0, Board.B);
 		Player Wplayer = new Player(0, Board.W);
 		
+		/* initializing the Move boards */
+		Move Wmove[] = new Move[0];
+		Move Bmove[] = new Move[0];
+		
 		int counter = 0;
 		
 		Board b = new Board();
@@ -20,7 +24,6 @@ public class Test {
 				
 				case Board.B:
 					
-					Move Wmove = new Move();
 					System.out.println("White moves");
 					
 					if(counter==1)
@@ -33,15 +36,16 @@ public class Test {
 					} else {
 						
 					}
-					if(b.moveIsLegal(Wmove.getFrom(), Wmove.getTo(), Board.W)) {
-						b.playMove(Wmove.getFrom(), Wmove.getTo(), Board.W );
-						counter = 0;
+					for(int i=0; i<Wmove.length; i++) {
+						if(b.moveIsLegal(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W)) {
+							b.playMove(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W );
+							counter = 0;
+						}
 					}
 					break;
 				
 				case Board.W:
 					
-					Move Bmove = new Move();
 					System.out.println("Black moves");
 					
 					if(counter==1)
@@ -53,9 +57,11 @@ public class Test {
 					} else {
 						
 					}
-					if(b.moveIsLegal(Bmove.getFrom(), Bmove.getTo(), Board.B)) {
-						b.playMove(Bmove.getFrom(), Bmove.getTo(), Board.B );
-						counter = 0;
+					for(int i=0; i<Bmove.length; i++) {
+						if(b.moveIsLegal(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B)) {
+							b.playMove(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B );
+							counter = 0;
+						}
 					}
 					break;
 				default:
