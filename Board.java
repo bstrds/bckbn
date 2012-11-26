@@ -160,6 +160,7 @@ public class Board {
 	
 	public void print() {
 		
+		System.out.println(" 11  10   9   8   7   6   5   4   3   2   1   0");
 		for(int i=11; i>=0; i--) {
 			printHelp(i);
 		}
@@ -169,12 +170,15 @@ public class Board {
 		for(int i=12; i<24; i++) {
 			printHelp(i);
 		}
+		System.out.println("\n 12  13  14  15  16  17  18  19  20  21  22  23");
 		
 		System.out.println("\n");
+		System.out.println("               24  25");
 		System.out.println("eaten pills : <w"+positions[24].getNum()+
 						   "> <b"+positions[25].getNum()+">");
 		System.out.println("pills out : <w"+positions[26].getNum()+
 						   "> <b"+positions[27].getNum()+">");
+		System.out.println("             26  27");
 		
 	}
 	

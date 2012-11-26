@@ -5,6 +5,7 @@ public class Test {
 		Player Bplayer = new Player(0, Board.B);
 		Player Wplayer = new Player(0, Board.W);
 		
+		/* initializing the Move boards */
 		Move Wmove[] = new Move[0];
 		Move Bmove[] = new Move[0];
 		

@@ -37,6 +37,13 @@ public class Player {
 		boolean gotit = false;
 		boolean dubs = (d1==d2);
 		
+		/* to determine which dice was played */
+		boolean pD1 = false;
+		boolean pD2 = false;
+		
+		/* makes new Move board with length depending on
+		 * whether or not we have doubles 
+		 */
 		if(dubs)
 			moves = new Move[4];
 		else
@@ -61,9 +68,14 @@ public class Player {
 					System.out.println("Enter where you want to move to :");
 					t = in.readLine();
 					to = Integer.parseInt(t);
-					if(Math.abs(from-to) == d1 || Math.abs(from-to) == d2) {
+					if((Math.abs(from-to) == d1) && !pD1) {
+						pD1 = true;
 						gotit = true;
-					} else {
+					} else if((Math.abs(from-to) == d2) && !pD2) {
+						pD2 = true;
+						gotit = true;
+					}else {
+					
 						System.out.println("You entered an illegal move biatch\n");
 					}
 					
