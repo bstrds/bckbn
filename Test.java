@@ -37,7 +37,7 @@ public class Test {
 						
 					}
 					for(int i=0; i<Wmove.length; i++) {
-						if(b.moveIsLegal(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W)) {
+						if(b.moveIsLegal(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W, Wplayer.getD1(), Wplayer.getD2())) {
 							b.playMove(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W );
 							counter = 0;
 						}
@@ -58,7 +58,7 @@ public class Test {
 						
 					}
 					for(int i=0; i<Bmove.length; i++) {
-						if(b.moveIsLegal(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B)) {
+						if(b.moveIsLegal(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B, Bplayer.getD1(), Bplayer.getD2())) {
 							b.playMove(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B );
 							counter = 0;
 						}

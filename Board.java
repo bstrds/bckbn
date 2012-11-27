@@ -129,11 +129,12 @@ public class Board {
 		lastColorPlayed = col;
 	}
 	
-	public boolean moveIsLegal(int from, int to, int col) {
+	public boolean moveIsLegal(int from, int to, int col, int d1, int d2) {
 		
 		if((from < 0) || (to<0) || (from>27) || (to>27)) {
 			return false;
 		}
+		
 		if(col==W) {
 			if(positions[to].getCol()==B && positions[to].getNum()>1) {
 				return false;
@@ -143,15 +144,59 @@ public class Board {
 				return false;
 			}
 		}
+		
 		if(positions[from].getCol() != col) {
 			return false;
 		}
+		
 		if(col==W && positions[0].getNum()>0 && from != 0) {
 			return false;
 		}
+		
 		if(col==B && positions[25].getNum()>0 && from !=25) {
 			return false;
 		}
+		
+		if((col==W && to==27) || (col==B && to==26)) {
+			return false;
+		}
+		
+		int farthestWhite = -1;
+		
+		if(to==26) {
+			if(from<19) {
+				return false;
+			}
+			for(int i=19; i<25; i++) {
+				if(positions[i].getCol()==W) {
+					farthestWhite = i;
+					break;
+				}
+			}
+		}
+		
+		int farthestBlack = -1;
+		
+		if(to==27) {
+			if(from>6) {
+				return false;
+			}
+			for(int i=6; i>0; i--) {
+				if(positions[i].getCol()==B) {
+					farthestBlack = i;
+					break;
+				}
+			}
+		}
+		
+		if(to==26 && from!=farthestWhite && (25-from)!=d1 && (25-from)!=d2) {
+			return false;
+		}
+		
+		if(to==27 && from!=farthestBlack && from!=d1 && from!=d2) {
+			return false;
+		}
+		
 		return true;
 	}
 	

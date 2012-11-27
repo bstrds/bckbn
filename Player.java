@@ -37,6 +37,7 @@ public class Player {
 		boolean gotit = false;
 		boolean dubs = (d1==d2);
 		boolean direction = false;
+		boolean lastrun = true;
 		
 		/* to determine which dice was played */
 		boolean pD1 = false;
@@ -65,7 +66,31 @@ public class Player {
 			else 
 				System.out.println("Black rolled "+d1+" and "+d2+" .");
 			
+			Position[] tempP = tempB.getPositions();
+			
+			/* checking if we are in lastrun mode,
+			 * depending on the player color
+			 */
+			if(playerColor==Board.W) {
+				for(int j=0; j<19; j++) {
+					
+					if(tempP[j].getCol()==Board.W) {
+						lastrun = false;
+						break;
+					}
+				}
+			} else if(playerColor==Board.B) {
+				for(int j=25; j>6; j--) {
+					
+					if(tempP[j].getCol()==Board.B) {
+						lastrun = false;
+						break;
+					}
+				}
+			}
+			
 			while(!gotit) {
+				
 				try {
 					
 					System.out.println("Enter where you want to move from :");
@@ -78,7 +103,7 @@ public class Player {
 					/* checking if everyone is moving in the right direction */
 					direction = (((playerColor==Board.W) && ((to-from)>0)) || ((playerColor==Board.B) && ((to-from)<0))); 
 					
-					if((Math.abs(from-to) == d1) && !pD1 && direction || dubs) {
+					if((Math.abs(from-to) == d1) && direction && (!pD1 || dubs)) {
 						pD1 = true;
 						gotit = true;
 						
@@ -86,20 +111,20 @@ public class Player {
 						 * for displaying purposes
 						 */
 						if((!dubs && i==0)||(dubs && i!=3)) {
-							if(tempB.moveIsLegal(from, to, playerColor)) {
+							if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
 								tempB.playMove(from, to, playerColor);
 								tempB.print();
 							} else {
 								System.out.println("\nIllegal move, try again. \n");
 							}
 						}
-					} else if((Math.abs(from-to) == d2) && !pD2 && direction || dubs) {
+					} else if((Math.abs(from-to) == d2) && direction && (!pD2 || dubs)) {
 						pD2 = true;
 						gotit = true;
 						
 						/* same as above */
 						if((!dubs && i==0)||(dubs && i!=3)) {
-							if(tempB.moveIsLegal(from, to, playerColor)) {
+							if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
 								tempB.playMove(from, to, playerColor);
 								tempB.print();
 							} else {
@@ -113,7 +138,7 @@ public class Player {
 					
 				} catch(Exception e) {
 					
-					System.out.println("Try again.");
+					System.out.println("/nTry again./n");
 					//e.printStackTrace();
 				}
 			}
@@ -121,7 +146,6 @@ public class Player {
 			moves[i] = new Move(from, to, playerColor);
 		}
 			
-		//Move wmove = new Move(from, to, playerColor);
 		return moves;
 	}
 	
