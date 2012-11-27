@@ -22,28 +22,28 @@ public class Board {
 		
 		/* setting standard backgammon starting positions
 		 */
-		positions[0].setCol(W);
-		positions[0].setNum((byte)2);
-		positions[5].setCol(B);
-		positions[5].setNum((byte)5);
-		positions[7].setCol(B);
-		positions[7].setNum((byte)3);
-		positions[11].setCol(W);
-		positions[11].setNum((byte)5);
-		positions[12].setCol(B);
+		positions[1].setCol(W);
+		positions[1].setNum((byte)2);
+		positions[6].setCol(B);
+		positions[6].setNum((byte)5);
+		positions[8].setCol(B);
+		positions[8].setNum((byte)3);
+		positions[12].setCol(W);
 		positions[12].setNum((byte)5);
-		positions[16].setCol(W);
-		positions[16].setNum((byte)3);
-		positions[18].setCol(W);
-		positions[18].setNum((byte)5);
-		positions[23].setCol(B);
-		positions[23].setNum((byte)2);
+		positions[13].setCol(B);
+		positions[13].setNum((byte)5);
+		positions[17].setCol(W);
+		positions[17].setNum((byte)3);
+		positions[19].setCol(W);
+		positions[19].setNum((byte)5);
+		positions[24].setCol(B);
+		positions[24].setNum((byte)2);
 		
-		/* we keep the eaten pills in [24] for white, and [25] for
+		/* we keep the eaten pills in [0] for white, and [25] for
 		 * black. also, we keep the pills that have exited the board 
 		 * in [26] for white, and [27] for black
 		 */ 
-		positions[24].setCol(W);
+		positions[0].setCol(W);
 		positions[25].setCol(B);
 		positions[26].setCol(W);
 		positions[27].setCol(B);
@@ -114,7 +114,7 @@ public class Board {
 		} else {
 			if(positions[to].getCol()==W) {
 				positions[to].decr();
-				positions[24].incr();
+				positions[0].incr();
 			}
 		}
 		
@@ -146,6 +146,12 @@ public class Board {
 		if(positions[from].getCol() != col) {
 			return false;
 		}
+		if(col==W && positions[0].getNum()>0 && from != 0) {
+			return false;
+		}
+		if(col==B && positions[25].getNum()>0 && from !=25) {
+			return false;
+		}
 		return true;
 	}
 	
@@ -160,21 +166,21 @@ public class Board {
 	
 	public void print() {
 		
-		System.out.println(" 11  10   9   8   7   6   5   4   3   2   1   0");
-		for(int i=11; i>=0; i--) {
+		System.out.println(" 12  11  10   9   8   7   6   5   4   3   2   1");
+		for(int i=12; i>0; i--) {
 			printHelp(i);
 		}
 		
 		System.out.println("\n|\t\t\t\t\t\t|");
 		
-		for(int i=12; i<24; i++) {
+		for(int i=13; i<25; i++) {
 			printHelp(i);
 		}
-		System.out.println("\n 12  13  14  15  16  17  18  19  20  21  22  23");
+		System.out.println("\n 13  14  15  16  17  18  19  20  21  22  23  24");
 		
 		System.out.println("\n");
-		System.out.println("               24  25");
-		System.out.println("eaten pills : <w"+positions[24].getNum()+
+		System.out.println("                0   25");
+		System.out.println("eaten pills : <w"+positions[0].getNum()+
 						   "> <b"+positions[25].getNum()+">");
 		System.out.println("pills out : <w"+positions[26].getNum()+
 						   "> <b"+positions[27].getNum()+">");

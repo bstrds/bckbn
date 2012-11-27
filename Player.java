@@ -89,6 +89,8 @@ public class Player {
 							if(tempB.moveIsLegal(from, to, playerColor)) {
 								tempB.playMove(from, to, playerColor);
 								tempB.print();
+							} else {
+								System.out.println("\nIllegal move, try again. \n");
 							}
 						}
 					} else if((Math.abs(from-to) == d2) && !pD2 && direction || dubs) {
@@ -100,11 +102,13 @@ public class Player {
 							if(tempB.moveIsLegal(from, to, playerColor)) {
 								tempB.playMove(from, to, playerColor);
 								tempB.print();
+							} else {
+								System.out.println("\nIllegal move, try again. \n");
 							}
 						}	
 					}else {
 					
-						System.out.println("\nYou entered an illegal move biatch\n");
+						System.out.println("\nIllegal move, try again. \n");
 					}
 					
 				} catch(Exception e) {
