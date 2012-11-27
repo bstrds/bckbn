@@ -27,7 +27,7 @@ public class Player {
 		this.d2 = (int)(Math.random()*6)+1;
 	}
 	
-	public Move[] inputMove(int d1, int d2) {
+	public Move[] inputMove(int d1, int d2, Board b) {
 		
 		Move[] moves;
 		String fr;
@@ -36,18 +36,24 @@ public class Player {
 		int to = -1;
 		boolean gotit = false;
 		boolean dubs = (d1==d2);
+		boolean direction = false;
 		
 		/* to determine which dice was played */
 		boolean pD1 = false;
 		boolean pD2 = false;
 		
-		/* makes new Move board with length depending on
+		/* makes new Move array with length depending on
 		 * whether or not we have doubles 
 		 */
 		if(dubs)
 			moves = new Move[4];
 		else
 			moves = new Move[2];
+		
+		/* creates a temporary board so that we can 
+		 * display moves while a turn has not finished
+		 */
+		Board tempB = new Board(b);
 		
 		for(int i=0; i<moves.length; i++) { 
 			
@@ -68,15 +74,37 @@ public class Player {
 					System.out.println("Enter where you want to move to :");
 					t = in.readLine();
 					to = Integer.parseInt(t);
-					if((Math.abs(from-to) == d1) && !pD1) {
+					
+					/* checking if everyone is moving in the right direction */
+					direction = (((playerColor==Board.W) && ((to-from)>0)) || ((playerColor==Board.B) && ((to-from)<0))); 
+					
+					if((Math.abs(from-to) == d1) && !pD1 && direction || dubs) {
 						pD1 = true;
 						gotit = true;
-					} else if((Math.abs(from-to) == d2) && !pD2) {
+						
+						/* making the move on the temporary board
+						 * for displaying purposes
+						 */
+						if((!dubs && i==0)||(dubs && i!=3)) {
+							if(tempB.moveIsLegal(from, to, playerColor)) {
+								tempB.playMove(from, to, playerColor);
+								tempB.print();
+							}
+						}
+					} else if((Math.abs(from-to) == d2) && !pD2 && direction || dubs) {
 						pD2 = true;
 						gotit = true;
+						
+						/* same as above */
+						if((!dubs && i==0)||(dubs && i!=3)) {
+							if(tempB.moveIsLegal(from, to, playerColor)) {
+								tempB.playMove(from, to, playerColor);
+								tempB.print();
+							}
+						}	
 					}else {
 					
-						System.out.println("You entered an illegal move biatch\n");
+						System.out.println("\nYou entered an illegal move biatch\n");
 					}
 					
 				} catch(Exception e) {

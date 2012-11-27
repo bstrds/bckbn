@@ -32,7 +32,7 @@ public class Test {
 					/* this means human player */
 					if(Wplayer.getDepth()==0) {
 						
-						Wmove = Wplayer.inputMove(Wplayer.getD1(), Wplayer.getD2());
+						Wmove = Wplayer.inputMove(Wplayer.getD1(), Wplayer.getD2(), b);
 					} else {
 						
 					}
@@ -53,7 +53,7 @@ public class Test {
 						
 					if(Bplayer.getDepth()==0) {
 						
-						Bmove = Bplayer.inputMove(Bplayer.getD1(), Bplayer.getD2());
+						Bmove = Bplayer.inputMove(Bplayer.getD1(), Bplayer.getD2(), b);
 					} else {
 						
 					}
