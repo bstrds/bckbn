@@ -69,5 +69,10 @@ public class Test {
 			}
 			b.print();
 		}
+		Position[] pos = b.getPositions();
+		if(pos[26].getNum()==5)
+			System.out.println("\nWhite Wins!\n");
+		else if(pos[27].getNum()==5)
+			System.out.println("\nBlack Wins!\n");
 	}
 }

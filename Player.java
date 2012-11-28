@@ -74,7 +74,7 @@ public class Player {
 			if(playerColor==Board.W) {
 				for(int j=0; j<19; j++) {
 					
-					if(tempP[j].getCol()==Board.W) {
+					if(tempP[j].getCol()==Board.W && tempP[j].getNum()>0) {
 						lastrun = false;
 						break;
 					}
@@ -82,12 +82,14 @@ public class Player {
 			} else if(playerColor==Board.B) {
 				for(int j=25; j>6; j--) {
 					
-					if(tempP[j].getCol()==Board.B) {
+					if(tempP[j].getCol()==Board.B && tempP[j].getNum()>0) {
 						lastrun = false;
 						break;
 					}
 				}
 			}
+			
+			System.out.println("lastrun = "+lastrun);
 			
 			while(!gotit) {
 				
@@ -103,47 +105,59 @@ public class Player {
 					/* checking if everyone is moving in the right direction */
 					direction = (((playerColor==Board.W) && ((to-from)>0)) || ((playerColor==Board.B) && ((to-from)<0))); 
 					
-					if((Math.abs(from-to) == d1) && direction && (!pD1 || dubs)) {
-						pD1 = true;
-						gotit = true;
+					if((Math.abs(from-to) == d1) && direction && (!pD1 || dubs) || lastrun) {
+						
 						
 						/* making the move on the temporary board
 						 * for displaying purposes
 						 */
-						if((!dubs && i==0)||(dubs && i!=3)) {
-							if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
+						if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
+							
+							if((!dubs && i==0)||(dubs && i!=3)) {
 								tempB.playMove(from, to, playerColor);
 								tempB.print();
-							} else {
-								System.out.println("\nIllegal move, try again. \n");
 							}
+							pD1 = true;
+							gotit = true;
+						} else {
+							System.out.println("\nIllegal move, try again0. \n");
 						}
-					} else if((Math.abs(from-to) == d2) && direction && (!pD2 || dubs)) {
-						pD2 = true;
-						gotit = true;
 						
+					} else if((Math.abs(from-to) == d2) && direction && (!pD2 || dubs) || lastrun)  {
+					
 						/* same as above */
-						if((!dubs && i==0)||(dubs && i!=3)) {
-							if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
+						if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
+							
+							if((!dubs && i==0)||(dubs && i!=3)) {
 								tempB.playMove(from, to, playerColor);
 								tempB.print();
-							} else {
-								System.out.println("\nIllegal move, try again. \n");
 							}
+							pD2 = true;
+							gotit = true;
+						} else {
+							System.out.println("\nIllegal move, try again1. \n");
 						}	
 					}else {
 					
-						System.out.println("\nIllegal move, try again. \n");
+						System.out.println("\nIllegal move, try again2. \n");
 					}
 					
 				} catch(Exception e) {
 					
-					System.out.println("/nTry again./n");
+					System.out.println("\nTry again3.\n");
 					//e.printStackTrace();
 				}
 			}
 			gotit = false;
 			moves[i] = new Move(from, to, playerColor);
+			if(tempB.isTerminal()) {
+				Move[] tempM = new Move[i+1];
+				for(int c=0; c<tempM.length; c++) {
+					tempM[c] = moves[c];
+					//tempM[c] = new Move(moves[c].getFrom(),moves[c].getTo(), moves[c].getCol());
+				}
+				return tempM;
+			}
 		}
 			
 		return moves;

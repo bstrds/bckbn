@@ -36,8 +36,8 @@ public class Board {
 		positions[17].setNum((byte)3);
 		positions[19].setCol(W);
 		positions[19].setNum((byte)5);
-		positions[24].setCol(B);
-		positions[24].setNum((byte)2);
+		//positions[24].setCol(B);
+		//positions[24].setNum((byte)2);
 		
 		/* we keep the eaten pills in [0] for white, and [25] for
 		 * black. also, we keep the pills that have exited the board 
@@ -197,13 +197,25 @@ public class Board {
 			return false;
 		}
 		
+		if(to==26 && from == farthestWhite) {
+			if((25-from)>d1 && (25-from)>d2) {
+				return false;
+			}
+		}
+		
+		if(to==27 && from == farthestBlack) {
+			if(from>d1 && from>d2) {
+				return false;
+			}
+		}
+		
 		return true;
 	}
 	
 	public boolean isTerminal() {
 		
 		if(positions[26].getNum()==15 || positions[27].getNum()==15) {
-			
+		//if(positions[26].getNum()==5 || positions[27].getNum()==5) {	
 			return true;
 		}
 		return false;
