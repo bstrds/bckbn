@@ -37,7 +37,6 @@ public class Player {
 		boolean gotit = false;
 		boolean dubs = (d1==d2);
 		boolean direction = false;
-		boolean lastrun = true;
 		
 		/* to determine which dice was played */
 		boolean pD1 = false;
@@ -68,26 +67,8 @@ public class Player {
 			
 			Position[] tempP = tempB.getPositions();
 			
-			/* checking if we are in lastrun mode,
-			 * depending on the player color
-			 */
-			if(playerColor==Board.W) {
-				for(int j=0; j<19; j++) {
-					
-					if(tempP[j].getCol()==Board.W && tempP[j].getNum()>0) {
-						lastrun = false;
-						break;
-					}
-				}
-			} else if(playerColor==Board.B) {
-				for(int j=25; j>6; j--) {
-					
-					if(tempP[j].getCol()==Board.B && tempP[j].getNum()>0) {
-						lastrun = false;
-						break;
-					}
-				}
-			}
+			/* checking if we are in lastrun mode */
+			boolean lastrun = tempB.lastrun(playerColor);
 			
 			System.out.println("lastrun = "+lastrun);
 			
@@ -154,7 +135,6 @@ public class Player {
 				Move[] tempM = new Move[i+1];
 				for(int c=0; c<tempM.length; c++) {
 					tempM[c] = moves[c];
-					//tempM[c] = new Move(moves[c].getFrom(),moves[c].getTo(), moves[c].getCol());
 				}
 				return tempM;
 			}

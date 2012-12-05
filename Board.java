@@ -36,8 +36,8 @@ public class Board {
 		positions[17].setNum((byte)3);
 		positions[19].setCol(W);
 		positions[19].setNum((byte)5);
-		//positions[24].setCol(B);
-		//positions[24].setNum((byte)2);
+		positions[24].setCol(B);
+		positions[24].setNum((byte)2);
 		
 		/* we keep the eaten pills in [0] for white, and [25] for
 		 * black. also, we keep the pills that have exited the board 
@@ -129,7 +129,36 @@ public class Board {
 		lastColorPlayed = col;
 	}
 	
+	public boolean lastrun(int col) {
+		
+		boolean lastrun = true;
+		if(col==W) {
+			for(int j=0; j<19; j++) {
+				
+				if(positions[j].getCol()==W && positions[j].getNum()>0) {
+					lastrun = false;
+					break;
+				}
+			}
+		} else if(col== B) {
+			for(int j=25; j>6; j--) {
+				
+				if(positions[j].getCol()==Board.B && positions[j].getNum()>0) {
+					lastrun = false;
+					break;
+				}
+			}
+		}
+		return lastrun;
+	}
+	
 	public boolean moveIsLegal(int from, int to, int col, int d1, int d2) {
+		
+		boolean direction = (((col==Board.W) && ((to-from)>0)) || ((col==Board.B) && ((to-from)<0))); 
+		
+		if(!direction) {
+			return false;
+		}
 		
 		if((from < 0) || (to<0) || (from>27) || (to>27)) {
 			return false;
@@ -146,6 +175,10 @@ public class Board {
 		}
 		
 		if(positions[from].getCol() != col) {
+			return false;
+		}
+		
+		if(((Math.abs(to-from)!=d1) || (Math.abs(to-from)!=d2)) && !this.lastrun(col)) {
 			return false;
 		}
 		
