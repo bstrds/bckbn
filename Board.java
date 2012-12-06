@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Board {
 	
@@ -244,6 +248,88 @@ public class Board {
 		
 		return true;
 	}
+	
+	public Move[] movegen(int d1,int d2, int col) {
+		
+		int counter = 0;
+		
+		Move[] moves;
+		
+		boolean dubs = (d1==d2);
+		
+		Set<Integer> froms = new HashSet<Integer>();
+		
+		/* counting how many positions contain
+		 * pills of our given color , and 
+		 * adding those positions to a set */
+		for(int i=0; i<26; i++) {
+			if(positions[i].getCol()==col) {
+				counter++;
+				froms.add(i);
+			}
+		}
+		
+		/* the moves to be sent to getChildren()
+		 * can't be more than 4 per position if
+		 * we have a regular roll, and 4 per 
+		 * position if we have dubs */
+		if(!dubs)
+			moves = new Move[counter*2];
+		else
+			moves = new Move[counter];
+		
+		Iterator<Integer> it = froms.iterator();
+		int i = 0;
+		int temp = 0;
+		
+        while (it.hasNext()) {
+        	if(!dubs) {
+	        	if(col==W) {
+	        		temp = it.next();
+	        		moves[i] = new Move(temp, temp+d1, col);
+	        		i++;
+	        		moves[i] = new Move(temp, temp+d2, col);
+	        		i++;
+	        	} else if(col==B) {
+	        		temp = it.next();
+	        		moves[i] = new Move(temp, temp-d1, col);
+	        		i++;
+	        		moves[i] = new Move(temp, temp-d2, col);
+	        		i++;
+	        	}
+        	} else {
+        		if(col==W) {
+        			temp = it.next();
+        			moves[i] = new Move(temp, temp+d1, col);
+        			i++;
+        			
+        		} else if(col==B) {
+        			temp = it.next();
+        			moves[i] = new Move(temp, temp-d1, col);
+        			i++;
+        		}
+        	}
+        }
+		return moves;
+	}
+	
+	public ArrayList<Board> getChildren(int d1, int d2, int col) {
+		
+		ArrayList<Board> children = new ArrayList<Board>();
+		
+		Move[] moves = movegen(d1, d2, col);
+		
+		for(int i=0; i<moves.length; i++) {
+		
+			if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, d1, d2)) {
+				Board child = new Board(this);
+				child.playMove(moves[i].getFrom(), moves[i].getTo(), col);
+				children.add(child);
+			}
+		}
+		
+		return children; 
+	} 
 	
 	public boolean isTerminal() {
 		
