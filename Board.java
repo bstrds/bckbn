@@ -182,7 +182,7 @@ public class Board {
 			return false;
 		}
 		
-		if(((Math.abs(to-from)!=d1) || (Math.abs(to-from)!=d2)) && !this.lastrun(col)) {
+		if(((Math.abs(to-from)!=d1) && (Math.abs(to-from)!=d2)) && !this.lastrun(col)) {
 			return false;
 		}
 		

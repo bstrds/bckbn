@@ -65,7 +65,7 @@ public class Player {
 			else 
 				System.out.println("Black rolled "+d1+" and "+d2+" .");
 			
-			Position[] tempP = tempB.getPositions();
+			//Position[] tempP = tempB.getPositions();
 			
 			/* checking if we are in lastrun mode */
 			boolean lastrun = tempB.lastrun(playerColor);
