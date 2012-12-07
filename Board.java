@@ -263,7 +263,7 @@ public class Board {
 		 * pills of our given color , and 
 		 * adding those positions to a set */
 		for(int i=0; i<26; i++) {
-			if(positions[i].getCol()==col) {
+			if(positions[i].getCol()==col && positions[i].getNum()>0) {
 				counter++;
 				froms.add(i);
 			}
@@ -314,6 +314,8 @@ public class Board {
 	}
 	
 	public ArrayList<Board> getChildren(int d1, int d2, int col) {
+		
+		//TODO: make a temp board, call getchildren on it and print every child
 		
 		ArrayList<Board> children = new ArrayList<Board>();
 		
