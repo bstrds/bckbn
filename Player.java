@@ -157,4 +157,26 @@ public class Player {
 		
 		return this.maxDepth;
 	}
+	
+	/*public Move MiniMax(Board b) {
+		
+		if(playerColor==Board.B) {
+			
+			return max(new Board(b), 0);
+			
+		} else if(playerColor==Board.W) {
+			
+			return min(new Board(b), 0);
+			
+		}
+	}
+	
+	public Move max(Board b, int depth) {
+		
+		if(b.isTerminal() || depth==maxDepth) {
+			
+			Move m = new Move(b.getLastMove().getFrom(), b.getLastMove().getTo(), Board.B, b.evaluate());
+			return m;
+		}
+	}*/
 }

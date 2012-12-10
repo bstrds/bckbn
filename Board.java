@@ -198,6 +198,10 @@ public class Board {
 			return false;
 		}
 		
+		if((col==W && to==25) || (col==B && to==0)) {
+			return false;
+		}
+		
 		int farthestWhite = -1;
 		
 		if(to==26) {
@@ -313,10 +317,43 @@ public class Board {
 		return moves;
 	}
 	
+	public Move[] movegen(int dice, int col) {
+		
+		Move[] moves;
+		
+		Set<Integer> froms = new HashSet<Integer>();
+		
+		int counter = 0;
+		
+		for(int i=0; i<26; i++) {
+			if(positions[i].getCol()==col && positions[i].getNum()>0) {
+				counter++;
+				froms.add(i);
+			}
+		}
+		
+		moves = new Move[counter];
+		
+		Iterator<Integer> it = froms.iterator();
+		int i=0;
+		int temp =0;
+		
+		while(it.hasNext()) {
+			if(col==W) {
+				temp = it.next();
+				moves[i] = new Move(temp, temp+dice, col);
+				i++;
+			} else if(col==B) {
+				temp = it.next();
+				moves[i] = new Move(temp, temp-dice, col);
+				i++;
+			}
+		}
+		return moves;
+	}
+	
 	public ArrayList<Board> getChildren(int d1, int d2, int col) {
-		
-		//TODO: make a temp board, call getchildren on it and print every child
-		
+				
 		ArrayList<Board> children = new ArrayList<Board>();
 		
 		Move[] moves = movegen(d1, d2, col);
@@ -332,6 +369,24 @@ public class Board {
 		
 		return children; 
 	} 
+	
+	public ArrayList<Board> getChildren(int dice, int col) {
+		
+		ArrayList<Board> children = new ArrayList<Board>();
+		
+		Move[] moves = movegen(dice, col);
+		
+		for(int i=0; i< moves.length; i++) {
+			
+			if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, dice, dice)) {
+				Board child = new Board(this);
+				child.playMove(moves[i].getFrom(), moves[i].getTo(), col);
+				children.add(child);
+			}
+		}
+		
+		return children;
+	}
 	
 	public boolean isTerminal() {
 		

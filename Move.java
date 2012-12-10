@@ -4,17 +4,31 @@ public class Move {
 	private int from;
 	private int to;
 	private int color;
+	private int value;
 	
 	public Move() {
 		this.from = -1;
 		this.to = -1;
+		this.value = 0;
 	}
 	
 	public Move(int from, int to, int color) {
 		this.from = from;
 		this.to = to;
 		this.color = color;
+		this.value = 0;
 		
+	}
+	
+	public Move(int from, int to, int color, int value) {
+		this.from = from;
+		this.to = to;
+		this.color = color;
+		this.value = value;
+	}
+	
+	public Move(int value) {
+		this.value = value;
 	}
 	
 	public int getFrom() {
@@ -32,6 +46,11 @@ public class Move {
 		return color;
 	}
 	
+	public int getVal() {
+		
+		return value;
+	}
+	
 	public void setFrom(int from) {
 		
 		this.from = from;
@@ -45,5 +64,10 @@ public class Move {
 	public void setCol(int col) {
 		
 		this.color = col;
+	}
+	
+	public void setVal(int value) {
+		
+		this.value = value;
 	}
 }
