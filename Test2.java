@@ -16,6 +16,7 @@ public class Test2 {
 		for (Board child : children) {
 			
 			child.print();
+			System.out.println("Child Evaluation = "+child.evaluate());
 			
 			if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d1) {
 				
@@ -24,6 +25,7 @@ public class Test2 {
 				for (Board kid : ch2) {
 					System.out.println("\n\n<KID>\n\n");
 					kid.print();
+					System.out.println("Child Evaluation = "+kid.evaluate());
 					System.out.println("\n\n</KID>\n\n");
 				}
 			} else {
@@ -32,6 +34,7 @@ public class Test2 {
 				for (Board kid : ch2) {
 					System.out.println("\n\n<KID>\n\n");
 					kid.print();
+					System.out.println("Child Evaluation = "+kid.evaluate());
 					System.out.println("\n\n</KID>\n\n");
 				}
 			}

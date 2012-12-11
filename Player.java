@@ -175,8 +175,11 @@ public class Player {
 		
 		if(b.isTerminal() || depth==maxDepth) {
 			
-			Move m = new Move(b.getLastMove().getFrom(), b.getLastMove().getTo(), Board.B, b.evaluate());
+			Move m = new Move(b.getLastMove().getFrom(), 
+					b.getLastMove().getTo(), Board.B, b.evaluate());
 			return m;
 		}
+		
+		
 	}*/
 }

@@ -388,6 +388,51 @@ public class Board {
 		return children;
 	}
 	
+	public int evaluate() {
+		
+		int bsum = 0;
+		int wsum = 0;
+		
+		for(int i=1; i<25; i++) {
+			
+			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
+				bsum += 4;
+			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
+				bsum -= 3;
+			}
+			
+			if(positions[i].getNum()>1 && positions[i].getCol()==W) {
+				wsum += 4;
+			} else if(positions[i].getNum()==1 && positions[i].getCol()==W) {
+				wsum -= 3;
+			}
+		}
+		
+		if(positions[0].getNum()>0) {
+			wsum -= 6;
+		}
+		
+		if(positions[26].getNum()>0) {
+			wsum += 5;
+			if(positions[26].getNum()==15) {
+				wsum += 20;
+			}
+		}
+		
+		if(positions[25].getNum()>0) {
+			bsum -= 6;
+		}
+		
+		if(positions[27].getNum()>0) {
+			bsum += 5;
+			if(positions[27].getNum()==15) {
+				bsum += 20;
+			}
+		}
+		
+		return bsum - wsum;
+	}
+	
 	public boolean isTerminal() {
 		
 		if(positions[26].getNum()==15 || positions[27].getNum()==15) {
