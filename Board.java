@@ -259,8 +259,6 @@ public class Board {
 		
 		Move[] moves;
 		
-		boolean dubs = (d1==d2);
-		
 		Set<Integer> froms = new HashSet<Integer>();
 		
 		/* counting how many positions contain
@@ -274,43 +272,54 @@ public class Board {
 		}
 		
 		/* the moves to be sent to getChildren()
-		 * can't be more than 4 per position if
-		 * we have a regular roll, and 4 per 
-		 * position if we have dubs */
-		if(!dubs)
-			moves = new Move[counter*2];
-		else
-			moves = new Move[counter];
+		 * are 2 per position if
+		 * we have a regular roll*/
+		
+		moves = new Move[counter*2];
 		
 		Iterator<Integer> it = froms.iterator();
 		int i = 0;
 		int temp = 0;
 		
         while (it.hasNext()) {
-        	if(!dubs) {
-	        	if(col==W) {
-	        		temp = it.next();
-	        		moves[i] = new Move(temp, temp+d1, col);
+        	
+			if(col==W) {
+        		
+				temp = it.next();
+        		
+				if(temp+d1>24) {
+					moves[i] = new Move(temp, 26, col);
+					i++;
+				} else {
+					moves[i] = new Move(temp, temp+d1, col);
 	        		i++;
-	        		moves[i] = new Move(temp, temp+d2, col);
+				}
+				
+				if(temp+d2>24) {
+					moves[i] = new Move(temp, 26, col);
+					i++;
+				} else {
+					moves[i] = new Move(temp, temp+d2, col);
 	        		i++;
-	        	} else if(col==B) {
-	        		temp = it.next();
-	        		moves[i] = new Move(temp, temp-d1, col);
-	        		i++;
-	        		moves[i] = new Move(temp, temp-d2, col);
-	        		i++;
-	        	}
-        	} else {
-        		if(col==W) {
-        			temp = it.next();
-        			moves[i] = new Move(temp, temp+d1, col);
+				}
+        	} else if(col==B) {
+        		
+        		temp = it.next();
+        		
+        		if(temp-d1<0) {
+        			moves[i] = new Move(temp, 27, col);
         			i++;
-        			
-        		} else if(col==B) {
-        			temp = it.next();
+        		} else {
         			moves[i] = new Move(temp, temp-d1, col);
+	        		i++;
+        		}
+        		
+        		if(temp-d2<0) {
+        			moves[i] = new Move(temp, 27, col);
         			i++;
+        		} else {
+        			moves[i] = new Move(temp, temp-d2, col);
+	        		i++;
         		}
         	}
         }
@@ -340,13 +349,26 @@ public class Board {
 		
 		while(it.hasNext()) {
 			if(col==W) {
+				
 				temp = it.next();
-				moves[i] = new Move(temp, temp+dice, col);
-				i++;
+				
+				if(temp+dice>24) {
+					moves[i] = new Move(temp, 26, col);
+					i++;
+				} else {
+					moves[i] = new Move(temp, temp+dice, col);
+					i++;
+				}
 			} else if(col==B) {
+				
 				temp = it.next();
-				moves[i] = new Move(temp, temp-dice, col);
-				i++;
+				
+				if(temp-dice<0) {
+					moves[i] = new Move(temp, 27, col);
+				} else { 
+					moves[i] = new Move(temp, temp-dice, col);
+					i++;
+				}
 			}
 		}
 		return moves;
@@ -354,48 +376,129 @@ public class Board {
 	
 	public ArrayList<Board> getChildren(int d1, int d2, int col) {
 				
-		ArrayList<Board> temp = new ArrayList<Board>();
+		
 		ArrayList<Board> children = new ArrayList<Board>();
 		
 		boolean dubs = (d1==d2);
 		
-		Move[] moves = movegen(d1, d2, col);
-		
-		for(int i=0; i<moves.length; i++) {
-		
-			if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, d1, d2)) {
-				Board child = new Board(this);
-				child.playMove(moves[i].getFrom(), moves[i].getTo(), col);
-				temp.add(child);
-			}
-		}
-		
 		if(!dubs) {
-			 
+			
+			ArrayList<Board> temp = new ArrayList<Board>();
+			
+			Move[] moves = movegen(d1, d2, col);
+			
+			for(int i=0; i<moves.length; i++) {
+			
+				if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, d1, d2)) {
+					Board child = new Board(this);
+					child.playMove(moves[i].getFrom(), moves[i].getTo(), col);
+					temp.add(child);
+				}
+			}
+		
 			ArrayList<Board> temp2;
 			
 			for(Board child : temp) {
-				
-				if(!child.lastrun(col)) {
 					
-					if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d1) {
-						
-						temp2 = child.getChildren(d2, col);
-						for(Board tempchild : temp2) {
-							children.add(tempchild);
-						}
-					} else {
-						
-						temp2 = child.getChildren(d1, col);
-						for(Board tempchild : temp2) {
-							children.add(tempchild);
-						}
+				if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d1) {
+					
+					temp2 = child.getChildren(d2, col);
+					for(Board tempchild : temp2) {
+						children.add(tempchild);
+					}
+				} else if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d2) {
+					
+					temp2 = child.getChildren(d1, col);
+					for(Board tempchild : temp2) {
+						children.add(tempchild);
 					}
 				} else {
-					
+					if(col==W) {
+						if((child.getLastMove().getFrom()+d1) > 24 && child.getLastMove().getFrom()+d2 > 24) {
+							if(d1<d2) {
+								
+								temp2 = child.getChildren(d1, col);
+								for(Board tempchild : temp2) {
+									children.add(tempchild);
+								}
+							} else {
+								
+								temp2 = child.getChildren(d2, col);
+								for(Board tempchild : temp2) {
+									children.add(tempchild);
+								}
+							}
+						} else if(child.getLastMove().getFrom()+d1 == 25) {
+							
+							temp2 = child.getChildren(d2, col);
+							for(Board tempchild : temp2) {
+								children.add(tempchild);
+							}
+						} else if(child.getLastMove().getFrom()+d2 == 25) {
+							
+							temp2 = child.getChildren(d1, col);
+							for(Board tempchild : temp2) {
+								children.add(tempchild);
+							}
+						}
+					} else if(col==B) {
+						if((child.getLastMove().getFrom()-d1) < 0 && child.getLastMove().getFrom()-d2 < 0) {
+							if(d1<d2) {
+								
+								temp2 = child.getChildren(d1, col);
+								for(Board tempchild : temp2) {
+									children.add(tempchild);
+								}
+							} else {
+								
+								temp2 = child.getChildren(d2, col);
+								for(Board tempchild : temp2) {
+									children.add(tempchild);
+								}
+							}
+						} else if(child.getLastMove().getFrom()-d1 == 0) {
+							
+							temp2 = child.getChildren(d2, col);
+							for(Board tempchild : temp2) {
+								children.add(tempchild);
+							}
+						} else if(child.getLastMove().getFrom()-d2 == 0) {
+							
+							temp2 = child.getChildren(d1, col);
+							for(Board tempchild : temp2) {
+								children.add(tempchild);
+							}
+						}
+
+					}
 				}
 			}
 		} else {
+			
+			ArrayList<Board> t1, t2, t3, t4;
+			
+			t1 = getChildren(d1, col);
+			
+			for(Board temp1 : t1) {
+				
+				t2 = temp1.getChildren(d1, col);
+				
+				for(Board temp2 : t2) {
+					
+					t3 = temp2.getChildren(d1, col);
+					
+					for(Board temp3 : t3) {
+						
+						t4 = temp3.getChildren(d1, col);
+						
+						for(Board child : t4) {
+							
+							children.add(child);
+						}
+					}
+				}
+			}
+			
 			
 		}
 		return children; 
@@ -407,7 +510,7 @@ public class Board {
 		
 		Move[] moves = movegen(dice, col);
 		
-		for(int i=0; i< moves.length; i++) {
+		for(int i=0; i<moves.length; i++) {
 			
 			if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, dice, dice)) {
 				Board child = new Board(this);

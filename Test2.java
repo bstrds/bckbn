@@ -11,6 +11,7 @@ public class Test2 {
 		int d1 = (int)(Math.random()*6) + 1;
 		int d2 = (int)(Math.random()*6) + 1;
 		
+		//d1 = d2 = 6;
 		System.out.println("\n\nWhite rolled "+d1+" and "+d2+"\n\n");
 		
 		ArrayList<Board> children = b.getChildren(d1, d2, 1);
