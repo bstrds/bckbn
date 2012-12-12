@@ -354,7 +354,10 @@ public class Board {
 	
 	public ArrayList<Board> getChildren(int d1, int d2, int col) {
 				
+		ArrayList<Board> temp = new ArrayList<Board>();
 		ArrayList<Board> children = new ArrayList<Board>();
+		
+		boolean dubs = (d1==d2);
 		
 		Move[] moves = movegen(d1, d2, col);
 		
@@ -363,10 +366,38 @@ public class Board {
 			if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, d1, d2)) {
 				Board child = new Board(this);
 				child.playMove(moves[i].getFrom(), moves[i].getTo(), col);
-				children.add(child);
+				temp.add(child);
 			}
 		}
 		
+		if(!dubs) {
+			 
+			ArrayList<Board> temp2;
+			
+			for(Board child : temp) {
+				
+				if(!child.lastrun(col)) {
+					
+					if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d1) {
+						
+						temp2 = child.getChildren(d2, col);
+						for(Board tempchild : temp2) {
+							children.add(tempchild);
+						}
+					} else {
+						
+						temp2 = child.getChildren(d1, col);
+						for(Board tempchild : temp2) {
+							children.add(tempchild);
+						}
+					}
+				} else {
+					
+				}
+			}
+		} else {
+			
+		}
 		return children; 
 	} 
 	

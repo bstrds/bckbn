@@ -178,8 +178,9 @@ public class Player {
 			Move m = new Move(b.getLastMove().getFrom(), 
 					b.getLastMove().getTo(), Board.B, b.evaluate());
 			return m;
-		}
+		}	
 		
-		
+		ArrayList<Board> temp = b.getChildren(dice, Board.B);
 	}*/
+	
 }

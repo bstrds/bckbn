@@ -8,8 +8,10 @@ public class Test2 {
 		
 		b.print();
 		
-		int d1 = 6;
-		int d2 = 5;
+		int d1 = (int)(Math.random()*6) + 1;
+		int d2 = (int)(Math.random()*6) + 1;
+		
+		System.out.println("\n\nWhite rolled "+d1+" and "+d2+"\n\n");
 		
 		ArrayList<Board> children = b.getChildren(d1, d2, 1);
 		
@@ -18,26 +20,6 @@ public class Test2 {
 			child.print();
 			System.out.println("Child Evaluation = "+child.evaluate());
 			
-			if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d1) {
-				
-				ArrayList<Board> ch2 = child.getChildren(d2, 1);
-				
-				for (Board kid : ch2) {
-					System.out.println("\n\n<KID>\n\n");
-					kid.print();
-					System.out.println("Child Evaluation = "+kid.evaluate());
-					System.out.println("\n\n</KID>\n\n");
-				}
-			} else {
-				ArrayList<Board> ch2 = child.getChildren(d1,1);
-				
-				for (Board kid : ch2) {
-					System.out.println("\n\n<KID>\n\n");
-					kid.print();
-					System.out.println("Child Evaluation = "+kid.evaluate());
-					System.out.println("\n\n</KID>\n\n");
-				}
-			}
 		}
 	}
 }
