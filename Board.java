@@ -61,6 +61,7 @@ public class Board {
 		for(int i=0; i<28; i++) {
 			positions[i] = new Position(board.positions[i]);
 		}
+		
 	}
 	
 	
@@ -379,6 +380,8 @@ public class Board {
 		
 		ArrayList<Board> children = new ArrayList<Board>();
 		
+		Set<Board> childSet = new HashSet<Board>();
+		
 		boolean dubs = (d1==d2);
 		
 		if(!dubs) {
@@ -404,13 +407,13 @@ public class Board {
 					
 					temp2 = child.getChildren(d2, col);
 					for(Board tempchild : temp2) {
-						children.add(tempchild);
+						childSet.add(tempchild);
 					}
 				} else if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d2) {
 					
 					temp2 = child.getChildren(d1, col);
 					for(Board tempchild : temp2) {
-						children.add(tempchild);
+						childSet.add(tempchild);
 					}
 				} else {
 					if(col==W) {
@@ -419,26 +422,26 @@ public class Board {
 								
 								temp2 = child.getChildren(d1, col);
 								for(Board tempchild : temp2) {
-									children.add(tempchild);
+									childSet.add(tempchild);
 								}
 							} else {
 								
 								temp2 = child.getChildren(d2, col);
 								for(Board tempchild : temp2) {
-									children.add(tempchild);
+									childSet.add(tempchild);
 								}
 							}
 						} else if(child.getLastMove().getFrom()+d1 == 25) {
 							
 							temp2 = child.getChildren(d2, col);
 							for(Board tempchild : temp2) {
-								children.add(tempchild);
+								childSet.add(tempchild);
 							}
 						} else if(child.getLastMove().getFrom()+d2 == 25) {
 							
 							temp2 = child.getChildren(d1, col);
 							for(Board tempchild : temp2) {
-								children.add(tempchild);
+								childSet.add(tempchild);
 							}
 						}
 					} else if(col==B) {
@@ -447,26 +450,26 @@ public class Board {
 								
 								temp2 = child.getChildren(d1, col);
 								for(Board tempchild : temp2) {
-									children.add(tempchild);
+									childSet.add(tempchild);
 								}
 							} else {
 								
 								temp2 = child.getChildren(d2, col);
 								for(Board tempchild : temp2) {
-									children.add(tempchild);
+									childSet.add(tempchild);
 								}
 							}
 						} else if(child.getLastMove().getFrom()-d1 == 0) {
 							
 							temp2 = child.getChildren(d2, col);
 							for(Board tempchild : temp2) {
-								children.add(tempchild);
+								childSet.add(tempchild);
 							}
 						} else if(child.getLastMove().getFrom()-d2 == 0) {
 							
 							temp2 = child.getChildren(d1, col);
 							for(Board tempchild : temp2) {
-								children.add(tempchild);
+								childSet.add(tempchild);
 							}
 						}
 
@@ -476,7 +479,7 @@ public class Board {
 		} else {
 			
 			ArrayList<Board> t1, t2, t3, t4;
-			
+						
 			t1 = getChildren(d1, col);
 			
 			for(Board temp1 : t1) {
@@ -493,13 +496,18 @@ public class Board {
 						
 						for(Board child : t4) {
 							
-							children.add(child);
+							childSet.add(child);
 						}
 					}
 				}
 			}
 			
 			
+		}
+		Iterator<Board> it = childSet.iterator();
+		
+		while(it.hasNext()) {
+			children.add(it.next());
 		}
 		return children; 
 	} 
@@ -576,6 +584,8 @@ public class Board {
 		return false;
 	}
 	
+	/*------------------Utilities-&-Overrides------------------*/
+	
 	public void print() {
 		
 		System.out.println(" 12  11  10   9   8   7   6   5   4   3   2   1");
@@ -598,6 +608,7 @@ public class Board {
 						   "> <b"+positions[27].getNum()+">");
 		System.out.println("             26  27");
 		
+		
 	}
 	
 	public void printHelp(int i) {
@@ -612,4 +623,36 @@ public class Board {
 			}
 		}	
 	}
+	
+	public boolean equals(Object o){
+	    
+	
+	    if(o == null) {
+	    	return false;
+	    }
+	    if(!(o instanceof Board)) {
+	    	return false;
+	    }
+
+	    Board b = (Board)o;
+		
+		for(int i=0; i<28; i++) {
+			if((this.positions[i].getCol() != b.positions[i].getCol()) || (this.positions[i].getNum() != b.positions[i].getNum())) {
+				return false;
+			}
+		}
+	    return true;
+	  }
+	
+	public int hashCode() {  
+		
+		int hc = 0;
+		
+		for(int i=0; i<28; i++) {
+			
+			hc += (this.positions[i].getNum()+this.positions[i].getCol())*i;
+		}
+		
+	    return hc;
+	} 
 }

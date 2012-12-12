@@ -22,5 +22,13 @@ public class Test2 {
 			System.out.println("Child Evaluation = "+child.evaluate());
 			
 		}
+		
+		Board c = new Board();
+		Board d = new Board();
+		
+		int ch = c.hashCode();
+		int dh = d.hashCode();
+		
+		System.out.println("c hash: "+ch+" dhash: "+dh);
 	}
 }
