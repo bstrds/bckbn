@@ -342,7 +342,10 @@ public class Board {
 			}
 		}
 		
-		moves = new Move[counter];
+		if(counter!=0) 
+			moves = new Move[counter];
+		else 
+			return null;
 		
 		Iterator<Integer> it = froms.iterator();
 		int i=0;
@@ -518,6 +521,9 @@ public class Board {
 		
 		Move[] moves = movegen(dice, col);
 		
+		if(moves==null)
+			return null;
+		
 		for(int i=0; i<moves.length; i++) {
 			
 			if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, dice, dice)) {
@@ -611,7 +617,7 @@ public class Board {
 		
 	}
 	
-	public void printHelp(int i) {
+	private void printHelp(int i) {
 	
 		if(positions[i].getCol()==EMPTY) {
 				System.out.print("<  >");

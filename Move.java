@@ -12,6 +12,13 @@ public class Move {
 		this.value = 0;
 	}
 	
+	public Move(Move m) {
+		this.from = m.from;
+		this.to = m.to;
+		this.color = m.color;
+		this.value = m.value;
+	}
+	
 	public Move(int from, int to, int color) {
 		this.from = from;
 		this.to = to;

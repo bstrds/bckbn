@@ -1,9 +1,12 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
 public class Player {
-
+    
+	public static final int MAX = 1;
+	public static final int MIN = -1;
 	private int maxDepth;
 	private int playerColor;
 	private int d1;
@@ -158,20 +161,57 @@ public class Player {
 		return this.maxDepth;
 	}
 	
-	/*public Move MiniMax(Board b) {
+	public Move MiniMax(Board b, int d1, int d2) {
 		
 		if(playerColor==Board.B) {
 			
-			return max(new Board(b), 0);
+			return max(new Board(b), 0, d1 ,d2);
 			
 		} else if(playerColor==Board.W) {
 			
-			return min(new Board(b), 0);
+			return min(new Board(b), 0, d1 ,d2);
 			
+		} else {
+			return null;
 		}
 	}
 	
-	public Move max(Board b, int depth) {
+	public Move min(Board b, int depth, int d1, int d2) {
+		
+		if(b.isTerminal() || depth==maxDepth) {
+			Move m = new Move(b.getLastMove().getFrom(),
+					b.getLastMove().getTo(), b.evaluate());
+			return m;
+		}
+		
+		Move min;
+		
+		if(depth==0) {
+			
+			ArrayList<Board> children = b.getChildren(d1, d2, Board.W);
+			
+			min = new Move(Integer.MAX_VALUE);
+			
+			for(Board child : children) {
+				
+				Move move = max(child, depth+1, d1, d2);
+				
+				if(move.getVal() < min.getVal()) {
+					
+					min.setFrom(child.getLastMove().getFrom());
+					min.setTo(child.getLastMove().getTo());
+					min.setVal(child.getLastMove().getVal());
+					min.setCol(child.getLastMove().getCol());
+				}
+			}
+		} else {
+			
+			min = chance(b, depth, MIN);
+		}
+		return min;
+	}
+	
+	public Move max(Board b, int depth, int d1, int d2) {
 		
 		if(b.isTerminal() || depth==maxDepth) {
 			
@@ -180,7 +220,86 @@ public class Player {
 			return m;
 		}	
 		
-		ArrayList<Board> temp = b.getChildren(dice, Board.B);
-	}*/
+		Move max;
+		
+		if(depth==0) {
+			
+			ArrayList<Board> children = b.getChildren(d1, d2, Board.B);
+			
+			max = new Move(Integer.MIN_VALUE);
+			
+			for(Board child : children) {
+				
+				Move move = min(child, depth+1, d1, d2);
+				
+				if(move.getVal() > max.getVal()) {
+					
+					max.setFrom(child.getLastMove().getFrom());
+					max.setTo(child.getLastMove().getTo());
+					max.setVal(child.getLastMove().getVal());
+					max.setCol(child.getLastMove().getCol());
+				}
+			}
+		} else {
+			
+			max = chance(b, depth, MAX);
+			
+		}
+		return max;
+	}
+	
+	public Move chance(Board b, int depth, int caller) {
+		
+		Move[] moves = new Move[21];
+		
+		for(int i=0; i<21; i++) {
+			
+			int d1,d2;
+			
+			if(i<6) {
+				d1 = 1;
+				d2 = i+1;
+			} else if(i<11) {
+				d1 = 2;
+				d2 = i-4;
+			} else if(i<15) {
+				d1 = 3;
+				d2 = i-8;
+			} else if(i<18) {
+				d1 = 4;
+				d2 = i-11;
+			} else if(i<20) {
+				d1 = 5;
+				d2 = i-13;
+			} else {
+				d1 = 6;
+				d2 = 6;
+			}
+			
+			if(caller==MAX) {
+				moves[i] = min(b, depth+1, d1, d2);
+			} else if(caller==MIN) {
+				moves[i] = max(b, depth+1, d1, d2);
+			}
+		}
+		
+		return new Move(genVal(moves));
+	}
+	
+	private int genVal(Move[] moves) {
+		
+		int val = 0;
+		
+		for(int i=0; i<21; i++) {
+			
+			if(i==0 || i==6 || i==11 || i==15 || i==18 || i==20) {
+				val += moves[i].getVal()*2;
+			} else {
+				val += moves[i].getVal();
+			}
+		}
+		
+		return val;
+	}
 	
 }
