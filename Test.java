@@ -2,17 +2,13 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Player Bplayer = new Player(2, Board.B);
-		Player Wplayer = new Player(0, Board.W);
+		Player Bplayer = new Player(0, Board.B);
+		Player Wplayer = new Player(2, Board.W);
 		
 		/* initializing the Move boards 
 		 * for human players*/
 		Move Wmove[] = new Move[0];
 		Move Bmove[] = new Move[0];
-		
-		/* moves for computer players */
-		Move WcompMove;
-		Move BcompMove;
 		
 		int counter = 0;
 		
@@ -37,7 +33,7 @@ public class Test {
 					/* this means human player */
 					if(Wplayer.getDepth()==0) {
 						
-						Wmove = Wplayer.inputMove(Wplayer.getD1(), Wplayer.getD2(), b);
+						Wmove = Wplayer.inputMove(b);
 						
 						for(int i=0; i<Wmove.length; i++) {
 							if(b.moveIsLegal(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W, Wplayer.getD1(), Wplayer.getD2())) {
@@ -49,11 +45,8 @@ public class Test {
 						
 						System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
 						
-						WcompMove = Wplayer.MiniMax(b, Wplayer.getD1(), Wplayer.getD2());
-						
-						if(b.moveIsLegal(WcompMove.getFrom(), WcompMove.getTo(), WcompMove.getCol(), Wplayer.getD1(), Wplayer.getD2())) {
-							b.playMove(WcompMove.getFrom(), WcompMove.getTo(), WcompMove.getCol());
-						}
+						b = new Board(Wplayer.MiniMax(b, Wplayer.getD1(), Wplayer.getD2()));
+
 					}
 					
 					break;
@@ -67,7 +60,7 @@ public class Test {
 						
 					if(Bplayer.getDepth()==0) {
 						
-						Bmove = Bplayer.inputMove(Bplayer.getD1(), Bplayer.getD2(), b);
+						Bmove = Bplayer.inputMove(b);
 						
 						for(int i=0; i<Bmove.length; i++) {
 							if(b.moveIsLegal(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B, Bplayer.getD1(), Bplayer.getD2())) {
@@ -78,11 +71,8 @@ public class Test {
 					} else {
 						System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
 						
-						BcompMove = Bplayer.MiniMax(b, Bplayer.getD1(), Bplayer.getD2());
-						
-						if(b.moveIsLegal(BcompMove.getFrom(), BcompMove.getTo(), BcompMove.getCol(), Bplayer.getD1(), Bplayer.getD2())) {
-							b.playMove(BcompMove.getFrom(), BcompMove.getTo(), BcompMove.getCol());
-						}
+						b = new Board(Bplayer.MiniMax(b, Bplayer.getD1(), Bplayer.getD2()));
+	
 					}
 					
 					break;

@@ -30,7 +30,7 @@ public class Player {
 		this.d2 = (int)(Math.random()*6)+1;
 	}
 	
-	public Move[] inputMove(int d1, int d2, Board b) {
+	public Move[] inputMove(Board b) {
 		
 		Move[] moves;
 		String fr;
@@ -161,7 +161,8 @@ public class Player {
 		return this.maxDepth;
 	}
 	
-	public Move MiniMax(Board b, int d1, int d2) {
+	
+	public Board MiniMax(Board b, int d1, int d2) {
 		
 		if(playerColor==Board.B) {
 			
@@ -176,81 +177,76 @@ public class Player {
 		}
 	}
 	
-	public Move min(Board b, int depth, int d1, int d2) {
+	public Board min(Board b, int depth, int d1, int d2) {
 		
 		if(b.isTerminal() || depth==maxDepth) {
-			Move m = new Move(b.getLastMove().getFrom(),
-					b.getLastMove().getTo(), b.evaluate());
-			return m;
+			
+			return b;
 		}
 		
-		Move min;
+		Board minBoard = new Board();
+		int min;
 		
 		if(depth==0) {
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.W);
 			
-			min = new Move(Integer.MAX_VALUE);
+			min = Integer.MAX_VALUE;
 			
 			for(Board child : children) {
 				
-				Move move = max(child, depth+1, d1, d2);
+				Board temp = max(child, depth+1, d1, d2);
 				
-				if(move.getVal() < min.getVal()) {
+				if(temp.evaluate() < min) {
 					
-					min.setFrom(child.getLastMove().getFrom());
-					min.setTo(child.getLastMove().getTo());
-					min.setVal(child.getLastMove().getVal());
-					min.setCol(child.getLastMove().getCol());
+					min = temp.evaluate();
+					minBoard = new Board(temp);
 				}
 			}
 		} else {
 			
-			min = chance(b, depth, MIN);
+			minBoard = chance(b, depth, MIN);
 		}
-		return min;
+		return minBoard;
 	}
 	
-	public Move max(Board b, int depth, int d1, int d2) {
+	public Board max(Board b, int depth, int d1, int d2) {
 		
 		if(b.isTerminal() || depth==maxDepth) {
 			
-			Move m = new Move(b.getLastMove().getFrom(), 
-					b.getLastMove().getTo(), Board.B, b.evaluate());
-			return m;
+			return b;
 		}	
 		
-		Move max;
+		Board maxBoard = new Board();
+		int max;
 		
 		if(depth==0) {
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.B);
 			
-			max = new Move(Integer.MIN_VALUE);
+			max = Integer.MIN_VALUE;
 			
 			for(Board child : children) {
 				
-				Move move = min(child, depth+1, d1, d2);
+				Board temp = min(child, depth+1, d1, d2);
 				
-				if(move.getVal() > max.getVal()) {
+				if(temp.evaluate() > max) {
 					
-					max.setFrom(child.getLastMove().getFrom());
-					max.setTo(child.getLastMove().getTo());
-					max.setVal(child.getLastMove().getVal());
-					max.setCol(child.getLastMove().getCol());
+					max = temp.evaluate();
+					maxBoard = new Board(temp);
 				}
 			}
 		} else {
 			
-			max = chance(b, depth, MAX);
+			maxBoard = chance(b, depth, MAX);
 			
 		}
-		return max;
+		return maxBoard;
 	}
 	
-	public Move chance(Board b, int depth, int caller) {
+	public Board chance(Board b, int depth, int caller) {
 		
-		Move[] moves = new Move[21];
+		Board[] moves = new Board[21];
 		
 		for(int i=0; i<21; i++) {
 			

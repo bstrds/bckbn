@@ -7,8 +7,9 @@ public class Move {
 	private int value;
 	
 	public Move() {
-		this.from = -1;
-		this.to = -1;
+		this.from = 0;
+		this.to = 0;
+		this.color = 0;
 		this.value = 0;
 	}
 	

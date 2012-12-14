@@ -18,7 +18,10 @@ public class Board {
 	public Board() {
 		
 		lastMove = new Move();
+		
+		/* edit this to change who plays first */
 		lastColorPlayed = B;
+
 		positions = new Position[28];
 		for(int i=0; i<28; i++) {
 			positions[i] = new Position();
@@ -162,6 +165,10 @@ public class Board {
 		boolean direction = (((col==Board.W) && ((to-from)>0)) || ((col==Board.B) && ((to-from)<0))); 
 		
 		if(!direction) {
+			return false;
+		}
+		
+		if(from==to) {
 			return false;
 		}
 		
@@ -369,6 +376,7 @@ public class Board {
 				
 				if(temp-dice<0) {
 					moves[i] = new Move(temp, 27, col);
+					i++;
 				} else { 
 					moves[i] = new Move(temp, temp-dice, col);
 					i++;
