@@ -1,10 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.HashSet;
-
 
 public class Player {
     
@@ -223,16 +219,33 @@ public class Player {
 			ArrayList<Board> children = new ArrayList<Board>();
 			ArrayList<Board> tmp;
 			
-			for(byte i=1; i<7; i++) {
-				for(byte j=1; j<7; j++) {
+			for(byte i=0; i<21; i++) {
+				
+				if(i<6) {
+					d1 = 1;
+					d2 = (byte)(i+1);
+				} else if(i<11) {
+					d1 = 2;
+					d2 = (byte)(i-4);
+				} else if(i<15) {
+					d1 = 3;
+					d2 = (byte)(i-8);
+				} else if(i<18) {
+					d1 = 4;
+					d2 = (byte)(i-11);
+				} else if(i<20) {
+					d1 = 5;
+					d2 = (byte)(i-13);
+				} else {
+					d1 = 6;
+					d1 = 6;
+				}
 					
-					
-					tmp = new ArrayList<Board>(b.getChildren(i, j, Board.W));
-					
-					for(Board child : tmp) {
-						children.add(child);
-						child.setParent(b);
-					}
+				tmp = new ArrayList<Board>(b.getChildren(d1, d2, Board.W));
+				
+				for(Board child : tmp) {
+					children.add(child);
+					child.setParent(b);
 				}
 			}
 			
@@ -297,14 +310,32 @@ public class Player {
 			ArrayList<Board> tmp;
 			
 			for(byte i=1; i<7; i++) {
-				for(byte j=1; j<7; j++) {
-	
-					tmp = new ArrayList<Board>(b.getChildren(i, j, Board.B));
-					
-					for(Board child : tmp) {
-						children.add(child);
-						child.setParent(b);
-					}
+				
+				if(i<6) {
+					d1 = 1;
+					d2 = (byte)(i+1);
+				} else if(i<11) {
+					d1 = 2;
+					d2 = (byte)(i-4);
+				} else if(i<15) {
+					d1 = 3;
+					d2 = (byte)(i-8);
+				} else if(i<18) {
+					d1 = 4;
+					d2 = (byte)(i-11);
+				} else if(i<20) {
+					d1 = 5;
+					d2 = (byte)(i-13);
+				} else {
+					d1 = 6;
+					d1 = 6;
+				}
+				
+				tmp = new ArrayList<Board>(b.getChildren(d1, d2, Board.B));
+				
+				for(Board child : tmp) {
+					children.add(child);
+					child.setParent(b);
 				}
 			}
 
