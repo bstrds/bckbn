@@ -15,12 +15,20 @@ public class Board {
 	
 	private int lastColorPlayed;
 	
+	private int value;
+	
+	private Board parent;
+	
 	public Board() {
 		
 		lastMove = new Move();
 		
 		/* edit this to change who plays first */
 		lastColorPlayed = W;
+		
+		value = 0;
+		
+		parent = null;
 
 		positions = new Position[28];
 		for(int i=0; i<28; i++) {
@@ -60,6 +68,8 @@ public class Board {
 		
 		this.lastMove = board.lastMove;
 		this.lastColorPlayed = board.lastColorPlayed;
+		this.value = board.value;
+		this.parent = board.parent;
 		this.positions = new Position[28];
 		for(int i=0; i<28; i++) {
 			positions[i] = new Position(board.positions[i]);
@@ -83,6 +93,14 @@ public class Board {
 		return positions;
 	}
 	
+	public int getValue() {
+		return value;
+	}
+	
+	public Board getParent() {
+		return parent;
+	}
+	
 	public void setLastMove(Move lastMove) {
 		
 		this.lastMove.setFrom(lastMove.getFrom());
@@ -102,7 +120,14 @@ public class Board {
 			this.positions[i] = new Position(pst[i]);
 		}
 	}
+	
+	public void setValue(int value) {
+		this.value = value;
+	}
 
+	public void setParent(Board parent) { 
+		this.parent = parent;
+	}
 
 	public void playMove(int from, int to, int col) {
 		

@@ -184,14 +184,10 @@ public class Player {
 			return b;
 		}
 		
-		boolean called = false;
-		
 		Board minBoard = new Board();
 		int min;
 		
 		if(depth==0) {
-			
-			called = true;
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.W);
 			
@@ -199,49 +195,34 @@ public class Player {
 			
 			for(Board child : children) {
 				
-				Board temp = max(child, depth+1, d1, d2);
+				max(child, depth+1, d1, d2);
 				
-				if(temp.evaluate() < min) {
+				if(child.getValue() < min) {
 					
-					min = temp.evaluate();
-					minBoard = new Board(temp);
+					min = child.getValue();
+					minBoard = new Board(child);
 				}
 			}
-		} else {
 			
-			//Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>();
+			return minBoard;
+			
+		} else {
 			
 			ArrayList<Board> children = new ArrayList<Board>();
 			ArrayList<Board> tmp;
 			
-			Set<Board> childSet = new HashSet<Board>();
-			
-			//byte index = 0;
-			
 			for(int i=0; i<6; i++) {
 				for(int j=0; j<6; j++) {
 					
-					if(called) {
-						tmp = new ArrayList<Board>(b.getChildren(i, j, Board.W));
-					} else {
-						Board c = new Board(b);
-						tmp = new ArrayList<Board>(c.getChildren(i, j, Board.W));
-					}
+					
+					tmp = new ArrayList<Board>(b.getChildren(i, j, Board.W));
 					
 					for(Board child : tmp) {
 						children.add(child);
+						child.setParent(b);
 					}
-					
-					/*poss.add(index, b.getChildren(i, j, Board.W));
-					index++;*/
 				}
 			}
-			
-			/*Iterator<Board> it = childSet.iterator();
-			
-			while(it.hasNext()) {
-				children.add(it.next());
-			}*/
 			
 			min = Integer.MAX_VALUE;
 			
@@ -249,14 +230,24 @@ public class Player {
 				
 				Board temp = max(child, depth+1, d1, d2);
 				
-				if(temp.evaluate() < min && temp.getLastColPlayed()==Board.W) {
+				if(temp!=null) {
 					
-					min = temp.evaluate();
-					minBoard = new Board(temp);
+					if(temp.evaluate() < min) {
+						
+						min = temp.evaluate();
+						child.getParent().setValue(temp.evaluate());
+					}
+				} else {
+					
+					if(child.getValue() < min) {
+						
+						min = child.getValue();
+						child.getParent().setValue(child.getValue());
+					}
 				}
 			}
 		}
-		return minBoard;
+		return null;
 	}
 	
 	public Board max(Board b, int depth, int d1, int d2) {
@@ -266,14 +257,10 @@ public class Player {
 			return b;
 		}	
 		
-		boolean called = false;
-		
 		Board maxBoard = new Board();
 		int max;
 		
 		if(depth==0) {
-			
-			called = true;
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.B);
 			
@@ -281,117 +268,57 @@ public class Player {
 			
 			for(Board child : children) {
 				
-				Board temp = min(child, depth+1, d1, d2);
+				min(child, depth+1, d1, d2);
 				
-				if(temp.evaluate() > max) {
+				if(child.getValue() > max) {
 					
-					max = temp.evaluate();
-					maxBoard = new Board(temp);
+					max = child.getValue();
+					maxBoard = new Board(child);
 				}
 			}
+			
+			return maxBoard;
+			
 		} else {
 			
-			//Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>(); 
 			ArrayList<Board> children = new ArrayList<Board>();
 			ArrayList<Board> tmp;
 			
-			Set<Board> childSet = new HashSet<Board>();
-			
-			//byte index = 0;
-			
 			for(int i=0; i<6; i++) {
 				for(int j=0; j<6; j++) {
-					
-					if(called) {
-						tmp = new ArrayList<Board>(b.getChildren(i, j, Board.B));
-					} else {
-						Board c = new Board(b);
-						tmp = new ArrayList<Board>(c.getChildren(i, j, Board.B));
-					}
+	
+					tmp = new ArrayList<Board>(b.getChildren(i, j, Board.B));
 					
 					for(Board child : tmp) {
 						children.add(child);
+						child.setParent(b);
 					}
 				}
 			}
 
-			/*Iterator<Board> it = childSet.iterator();
-			
-			while(it.hasNext()) {
-				children.add(it.next());
-			}*/
-
-			
 			max = Integer.MIN_VALUE;
 			
 			for(Board child : children) {
 				
 				Board temp = min(child, depth+1, d1, d2);
 				
-				if(temp.evaluate() > max && temp.getLastColPlayed()==Board.B) {
+				if(temp!=null) {
 					
-					max = temp.evaluate();
-					maxBoard = new Board(temp);
+					if(temp.evaluate() > max) {
+						
+						max = temp.evaluate();
+						child.getParent().setValue(temp.evaluate());
+					}
+				} else {
+					
+					if(child.getValue() > max) {
+						
+						max = child.getValue();
+						child.getParent().setValue(child.getValue());
+					}
 				}
-				
 			}
 		}
-		return maxBoard;
+		return null;
 	}
-	
-	
-	/*public Board chance(Board b, int depth, int caller) {
-		
-		Board[] moves = new Board[21];
-		
-		for(int i=0; i<21; i++) {
-			
-			int d1,d2;
-			
-			if(i<6) {
-				d1 = 1;
-				d2 = i+1;
-			} else if(i<11) {
-				d1 = 2;
-				d2 = i-4;
-			} else if(i<15) {
-				d1 = 3;
-				d2 = i-8;
-			} else if(i<18) {
-				d1 = 4;
-				d2 = i-11;
-			} else if(i<20) {
-				d1 = 5;
-				d2 = i-13;
-			} else {
-				d1 = 6;
-				d2 = 6;
-			}
-			
-			if(caller==MAX) {
-				moves[i] = min(b, depth+1, d1, d2);
-			} else if(caller==MIN) {
-				moves[i] = max(b, depth+1, d1, d2);
-			}
-		}
-		
-		return new Move(genVal(moves));
-	}
-	
-	private int genVal(Move[] moves) {
-		
-		int val = 0;
-		
-		for(int i=0; i<21; i++) {
-			
-			if(i==0 || i==6 || i==11 || i==15 || i==18 || i==20) {
-				val += moves[i].getVal()*2;
-			} else {
-				val += moves[i].getVal();
-			}
-		}
-		
-		return val;
-	}*/
-	
 }

@@ -3,7 +3,7 @@ public class Test {
 	public static void main(String[] args) {
 		
 		Player Bplayer = new Player(2, Board.B);
-		Player Wplayer = new Player(1, Board.W);
+		Player Wplayer = new Player(2, Board.W);
 		
 		/* initializing the Move boards 
 		 * for human players*/
