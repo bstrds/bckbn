@@ -5,15 +5,15 @@ import java.util.HashSet;
 
 public class Board {
 	
-	public static final int W = 1;
-	public static final int B = -1;
-	public static final int EMPTY = 0;
+	public static final byte W = 1;
+	public static final byte B = -1;
+	public static final byte EMPTY = 0;
 	
 	private Position[] positions;
 	
 	private Move lastMove;
 	
-	private int lastColorPlayed;
+	private byte lastColorPlayed;
 	
 	private int value;
 	
@@ -108,7 +108,7 @@ public class Board {
 		this.lastMove.setCol(lastMove.getCol());
 	}
 	
-	public void setLastColPlayed(int lastCol) {
+	public void setLastColPlayed(byte lastCol) {
 		
 		this.lastColorPlayed = lastCol;
 	}
@@ -129,7 +129,7 @@ public class Board {
 		this.parent = parent;
 	}
 
-	public void playMove(int from, int to, int col) {
+	public void playMove(byte from, byte to, byte col) {
 		
 		/* checking who wants to make the move, and manipulating
 		 * the board accordingly
@@ -162,7 +162,7 @@ public class Board {
 		lastColorPlayed = col;
 	}
 	
-	public boolean lastrun(int col) {
+	public boolean lastrun(byte col) {
 		
 		boolean lastrun = true;
 		if(col==W) {
@@ -185,7 +185,7 @@ public class Board {
 		return lastrun;
 	}
 	
-	public boolean moveIsLegal(int from, int to, int col, int d1, int d2) {
+	public boolean moveIsLegal(byte from, byte to, byte col, byte d1, byte d2) {
 		
 		boolean direction = (((col==Board.W) && ((to-from)>0)) || ((col==Board.B) && ((to-from)<0))); 
 		
@@ -194,6 +194,10 @@ public class Board {
 		}
 		
 		if(from==to) {
+			return false;
+		}
+		
+		if(from==26 || from==27) {
 			return false;
 		}
 		
@@ -232,6 +236,10 @@ public class Board {
 		}
 		
 		if((col==W && to==25) || (col==B && to==0)) {
+			return false;
+		}
+		
+		if((to==26 && !this.lastrun(W))|| (to==27 && !this.lastrun(B))) {
 			return false;
 		}
 		
@@ -286,7 +294,7 @@ public class Board {
 		return true;
 	}
 	
-	public Move[] movegen(int d1,int d2, int col) {
+	public Move[] movegen(byte d1,byte d2, byte col) {
 		
 		int counter = 0;
 		
@@ -321,37 +329,37 @@ public class Board {
 				temp = it.next();
         		
 				if(temp+d1>24) {
-					moves[i] = new Move(temp, 26, col);
+					moves[i] = new Move((byte)temp, (byte)26, col);
 					i++;
 				} else {
-					moves[i] = new Move(temp, temp+d1, col);
+					moves[i] = new Move((byte)temp, (byte)(temp+d1), col);
 	        		i++;
 				}
 				
 				if(temp+d2>24) {
-					moves[i] = new Move(temp, 26, col);
+					moves[i] = new Move((byte)temp, (byte)26, col);
 					i++;
 				} else {
-					moves[i] = new Move(temp, temp+d2, col);
+					moves[i] = new Move((byte)temp, (byte)(temp+d2), col);
 	        		i++;
 				}
         	} else if(col==B) {
         		
         		temp = it.next();
         		
-        		if(temp-d1<0) {
-        			moves[i] = new Move(temp, 27, col);
+        		if(temp-d1<1) {
+        			moves[i] = new Move((byte)temp, (byte)27, col);
         			i++;
         		} else {
-        			moves[i] = new Move(temp, temp-d1, col);
+        			moves[i] = new Move((byte)temp, (byte)(temp-d1), col);
 	        		i++;
         		}
         		
-        		if(temp-d2<0) {
-        			moves[i] = new Move(temp, 27, col);
+        		if(temp-d2<1) {
+        			moves[i] = new Move((byte)temp, (byte)27, col);
         			i++;
         		} else {
-        			moves[i] = new Move(temp, temp-d2, col);
+        			moves[i] = new Move((byte)temp, (byte)(temp-d2), col);
 	        		i++;
         		}
         	}
@@ -359,7 +367,7 @@ public class Board {
 		return moves;
 	}
 	
-	public Move[] movegen(int dice, int col) {
+	public Move[] movegen(byte dice, byte col) {
 		
 		Move[] moves;
 		
@@ -389,10 +397,10 @@ public class Board {
 				temp = it.next();
 				
 				if(temp+dice>24) {
-					moves[i] = new Move(temp, 26, col);
+					moves[i] = new Move((byte)temp, (byte)26, col);
 					i++;
 				} else {
-					moves[i] = new Move(temp, temp+dice, col);
+					moves[i] = new Move((byte)temp, (byte)(temp+dice), col);
 					i++;
 				}
 			} else if(col==B) {
@@ -400,10 +408,10 @@ public class Board {
 				temp = it.next();
 				
 				if(temp-dice<0) {
-					moves[i] = new Move(temp, 27, col);
+					moves[i] = new Move((byte)temp, (byte)27, col);
 					i++;
 				} else { 
-					moves[i] = new Move(temp, temp-dice, col);
+					moves[i] = new Move((byte)temp, (byte)(temp-dice), col);
 					i++;
 				}
 			}
@@ -411,7 +419,7 @@ public class Board {
 		return moves;
 	}
 	
-	public ArrayList<Board> getChildren(int d1, int d2, int col) {
+	public ArrayList<Board> getChildren(byte d1, byte d2, byte col) {
 				
 		
 		ArrayList<Board> children = new ArrayList<Board>();
@@ -425,6 +433,11 @@ public class Board {
 			ArrayList<Board> temp = new ArrayList<Board>();
 			
 			Move[] moves = movegen(d1, d2, col);
+			
+			if(moves==null) {
+				System.out.println("\n\n\nNULL1\n\n\n");
+				return null;
+			}
 			
 			for(int i=0; i<moves.length; i++) {
 			
@@ -565,17 +578,20 @@ public class Board {
 		while(it.hasNext()) {
 			children.add(it.next());
 		}
+		
 		return children; 
 	} 
 	
-	public ArrayList<Board> getChildren(int dice, int col) {
+	public ArrayList<Board> getChildren(byte dice, byte col) {
 		
 		ArrayList<Board> children = new ArrayList<Board>();
 		
 		Move[] moves = movegen(dice, col);
 		
-		if(moves==null)
+		if(moves==null) {
+			System.out.println("\n\n\nNULL\n\n\n");
 			return null;
+		}
 		
 		for(int i=0; i<moves.length; i++) {
 			
@@ -611,6 +627,7 @@ public class Board {
 		
 		if(positions[0].getNum()>0) {
 			wsum -= positions[0].getNum()*4;
+			bsum += positions[0].getNum()*4;
 		}
 		
 		if(positions[26].getNum()>0) {
@@ -619,6 +636,7 @@ public class Board {
 		
 		if(positions[25].getNum()>0) {
 			bsum -= positions[25].getNum()*4;
+			wsum += positions[25].getNum()*4;
 		}
 		
 		if(positions[27].getNum()>0) {

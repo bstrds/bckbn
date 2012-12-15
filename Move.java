@@ -1,9 +1,9 @@
 
 public class Move {
 	
-	private int from;
-	private int to;
-	private int color;
+	private byte from;
+	private byte to;
+	private byte color;
 	private int value;
 	
 	public Move() {
@@ -20,7 +20,7 @@ public class Move {
 		this.value = m.value;
 	}
 	
-	public Move(int from, int to, int color) {
+	public Move(byte from, byte to, byte color) {
 		this.from = from;
 		this.to = to;
 		this.color = color;
@@ -28,7 +28,7 @@ public class Move {
 		
 	}
 	
-	public Move(int from, int to, int color, int value) {
+	public Move(byte from, byte to, byte color, int value) {
 		this.from = from;
 		this.to = to;
 		this.color = color;
@@ -39,17 +39,17 @@ public class Move {
 		this.value = value;
 	}
 	
-	public int getFrom() {
+	public byte getFrom() {
 		
 		return from;
 	}
 	
-	public int getTo() {
+	public byte getTo() {
 		
 		return to;
 	}
 	
-	public int getCol() {
+	public byte getCol() {
 		
 		return color;
 	}
@@ -59,17 +59,17 @@ public class Move {
 		return value;
 	}
 	
-	public void setFrom(int from) {
+	public void setFrom(byte from) {
 		
 		this.from = from;
 	}
 	
-	public void setTo(int to) {
+	public void setTo(byte to) {
 		
 		this.to = to;
 	}
 	
-	public void setCol(int col) {
+	public void setCol(byte col) {
 		
 		this.color = col;
 	}

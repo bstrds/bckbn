@@ -2,8 +2,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Player Bplayer = new Player(2, Board.B);
-		Player Wplayer = new Player(2, Board.W);
+		Player Bplayer = new Player((byte)3, Board.B);
+		Player Wplayer = new Player((byte)2, Board.W);
 		
 		/* initializing the Move boards 
 		 * for human players*/
@@ -12,7 +12,11 @@ public class Test {
 		
 		int counter = 0;
 		
+		boolean fuck = false;
+		
 		Board b = new Board();
+		
+		Board fucku = new Board();
 		
 		b.print();
 		
@@ -87,6 +91,20 @@ public class Test {
 			}
 			b.print();
 			System.out.println("Board evaluation = "+b.evaluate());
+			if(b.getPositions()[26].getNum() > 0 || b.getPositions()[27].getNum()>0) {
+				fuck = true;
+			}
+			
+			if(b.hashCode()==fucku.hashCode()) {
+				System.out.println("\n\n\n\n FUCK FUCK FUCK!!!\n\n\n\n");
+				break;
+			}
+			
+			if(fuck && (b.getPositions()[26].getNum()==0 && b.getPositions()[27].getNum()==0)) {
+				System.out.println("\n\n\n\n FUCK!!! \n\n\n\n");
+				break;
+			}
+			
 		}
 		Position[] pos = b.getPositions();
 		if(pos[26].getNum()==15)

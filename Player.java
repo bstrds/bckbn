@@ -10,10 +10,11 @@ public class Player {
     
 	public static final int MAX = 1;
 	public static final int MIN = -1;
-	private int maxDepth;
-	private int playerColor;
-	private int d1;
-	private int d2;
+	public static final int NEWBOARD = new Board().hashCode();
+	private byte maxDepth;
+	private byte playerColor;
+	private byte d1;
+	private byte d2;
 	
 	public Player() {
 		
@@ -21,7 +22,7 @@ public class Player {
 		playerColor = Board.B;
 	}
 	
-	public Player(int maxDepth, int playerColor) {
+	public Player(byte maxDepth, byte playerColor) {
 		
 		this.maxDepth = maxDepth;
 		this.playerColor = playerColor;
@@ -29,8 +30,23 @@ public class Player {
 	
 	public void roll() {
 		
-		this.d1 = (int)(Math.random()*6)+1;
-		this.d2 = (int)(Math.random()*6)+1;
+		this.d1 = (byte)((Math.random()*6)+1);
+		this.d2 = (byte)((Math.random()*6)+1);
+	}
+	
+	public byte getD1() {
+		
+		return this.d1;
+	}
+	
+	public byte getD2() {
+			
+		return this.d2;
+	}
+	
+	public byte getDepth() {
+		
+		return this.maxDepth;
 	}
 	
 	public Move[] inputMove(Board b) {
@@ -96,10 +112,10 @@ public class Player {
 						/* making the move on the temporary board
 						 * for displaying purposes
 						 */
-						if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
+						if(tempB.moveIsLegal((byte)from, (byte)to, playerColor, d1, d2)) {
 							
 							if((!dubs && i==0)||(dubs && i!=3)) {
-								tempB.playMove(from, to, playerColor);
+								tempB.playMove((byte)from, (byte)to, playerColor);
 								tempB.print();
 							}
 							pD1 = true;
@@ -111,10 +127,10 @@ public class Player {
 					} else if((Math.abs(from-to) == d2) && direction && (!pD2 || dubs) || lastrun)  {
 					
 						/* same as above */
-						if(tempB.moveIsLegal(from, to, playerColor, d1, d2)) {
+						if(tempB.moveIsLegal((byte)from, (byte)to, playerColor, d1, d2)) {
 							
 							if((!dubs && i==0)||(dubs && i!=3)) {
-								tempB.playMove(from, to, playerColor);
+								tempB.playMove((byte)from, (byte)to, playerColor);
 								tempB.print();
 							}
 							pD2 = true;
@@ -134,7 +150,7 @@ public class Player {
 				}
 			}
 			gotit = false;
-			moves[i] = new Move(from, to, playerColor);
+			moves[i] = new Move((byte)from, (byte)to, playerColor);
 			if(tempB.isTerminal()) {
 				Move[] tempM = new Move[i+1];
 				for(int c=0; c<tempM.length; c++) {
@@ -147,37 +163,33 @@ public class Player {
 		return moves;
 	}
 	
-	public int getD1() {
+	public Board MiniMax(Board b, byte d1, byte d2) {
 		
-		return this.d1;
-	}
-	
-	public int getD2() {
-			
-		return this.d2;
-	}
-	
-	public int getDepth() {
 		
-		return this.maxDepth;
-	}
-	
-	
-	public Board MiniMax(Board b, int d1, int d2) {
 		
 		if(playerColor==Board.B) {
 			
-			return max(new Board(b), 0, d1 ,d2);
+			Board max = max(new Board(b), 0, d1 ,d2);
 			
-		} else if(playerColor==Board.W) {
+			if(max.hashCode()==NEWBOARD) {
+				return b;
+			} else {
+				return max;
+			}
 			
-			return min(new Board(b), 0, d1 ,d2);
-		} else { 
-			return null;
+		} else { /* if white player is to play */
+			
+			Board min = min(new Board(b), 0, d1, d2);
+			
+			if(min.hashCode()==NEWBOARD) {
+				return b;
+			} else {
+				return min;
+			}
 		}
 	}
 	
-	public Board min(Board b, int depth, int d1, int d2) {
+	public Board min(Board b, int depth, byte d1, byte d2) {
 		
 		if(b.isTerminal() || depth==maxDepth) {
 			
@@ -211,8 +223,8 @@ public class Player {
 			ArrayList<Board> children = new ArrayList<Board>();
 			ArrayList<Board> tmp;
 			
-			for(int i=0; i<6; i++) {
-				for(int j=0; j<6; j++) {
+			for(byte i=1; i<7; i++) {
+				for(byte j=1; j<7; j++) {
 					
 					
 					tmp = new ArrayList<Board>(b.getChildren(i, j, Board.W));
@@ -250,7 +262,7 @@ public class Player {
 		return null;
 	}
 	
-	public Board max(Board b, int depth, int d1, int d2) {
+	public Board max(Board b, int depth, byte d1, byte d2) {
 		
 		if(b.isTerminal() || depth==maxDepth) {
 			
@@ -284,8 +296,8 @@ public class Player {
 			ArrayList<Board> children = new ArrayList<Board>();
 			ArrayList<Board> tmp;
 			
-			for(int i=0; i<6; i++) {
-				for(int j=0; j<6; j++) {
+			for(byte i=1; i<7; i++) {
+				for(byte j=1; j<7; j++) {
 	
 					tmp = new ArrayList<Board>(b.getChildren(i, j, Board.B));
 					
