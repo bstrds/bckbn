@@ -2,7 +2,7 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Player Bplayer = new Player(1, Board.B);
+		Player Bplayer = new Player(2, Board.B);
 		Player Wplayer = new Player(1, Board.W);
 		
 		/* initializing the Move boards 
@@ -46,6 +46,9 @@ public class Test {
 						System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
 						
 						b = new Board(Wplayer.MiniMax(b, Wplayer.getD1(), Wplayer.getD2()));
+						
+						b.setLastColPlayed(Board.W);
+
 						counter = 0;
 					}
 					
@@ -72,6 +75,9 @@ public class Test {
 						System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
 						
 						b = new Board(Bplayer.MiniMax(b, Bplayer.getD1(), Bplayer.getD2()));
+						
+						b.setLastColPlayed(Board.B);
+						
 						counter = 0;
 					}
 					

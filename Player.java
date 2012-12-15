@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.HashSet;
 
 
 public class Player {
@@ -170,8 +172,7 @@ public class Player {
 		} else if(playerColor==Board.W) {
 			
 			return min(new Board(b), 0, d1 ,d2);
-			
-		} else {
+		} else { 
 			return null;
 		}
 	}
@@ -183,10 +184,14 @@ public class Player {
 			return b;
 		}
 		
+		boolean called = false;
+		
 		Board minBoard = new Board();
 		int min;
 		
 		if(depth==0) {
+			
+			called = true;
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.W);
 			
@@ -204,30 +209,50 @@ public class Player {
 			}
 		} else {
 			
-			Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>();
+			//Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>();
 			
-			byte index = 0;
+			ArrayList<Board> children = new ArrayList<Board>();
+			ArrayList<Board> tmp;
+			
+			Set<Board> childSet = new HashSet<Board>();
+			
+			//byte index = 0;
 			
 			for(int i=0; i<6; i++) {
 				for(int j=0; j<6; j++) {
 					
-					poss.add(index, b.getChildren(i, j, Board.W));
-					index++;
+					if(called) {
+						tmp = new ArrayList<Board>(b.getChildren(i, j, Board.W));
+					} else {
+						Board c = new Board(b);
+						tmp = new ArrayList<Board>(c.getChildren(i, j, Board.W));
+					}
+					
+					for(Board child : tmp) {
+						children.add(child);
+					}
+					
+					/*poss.add(index, b.getChildren(i, j, Board.W));
+					index++;*/
 				}
 			}
 			
+			/*Iterator<Board> it = childSet.iterator();
+			
+			while(it.hasNext()) {
+				children.add(it.next());
+			}*/
+			
 			min = Integer.MAX_VALUE;
 			
-			for(int i=0; i<36; i++) {
-				for(Board child : poss.get(i)) {
+			for(Board child : children) {
+				
+				Board temp = max(child, depth+1, d1, d2);
+				
+				if(temp.evaluate() < min && temp.getLastColPlayed()==Board.W) {
 					
-					Board temp = max(child, depth+1, d1, d2);
-					
-					if(temp.evaluate() < min) {
-						
-						min = temp.evaluate();
-						minBoard = new Board(temp);
-					}
+					min = temp.evaluate();
+					minBoard = new Board(temp);
 				}
 			}
 		}
@@ -241,10 +266,14 @@ public class Player {
 			return b;
 		}	
 		
+		boolean called = false;
+		
 		Board maxBoard = new Board();
 		int max;
 		
 		if(depth==0) {
+			
+			called = true;
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.B);
 			
@@ -262,32 +291,49 @@ public class Player {
 			}
 		} else {
 			
-			Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>(); 
+			//Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>(); 
+			ArrayList<Board> children = new ArrayList<Board>();
+			ArrayList<Board> tmp;
 			
-			byte index = 0;
+			Set<Board> childSet = new HashSet<Board>();
+			
+			//byte index = 0;
 			
 			for(int i=0; i<6; i++) {
 				for(int j=0; j<6; j++) {
 					
-					poss.add(index, b.getChildren(i, j, Board.B));
-					index++;
+					if(called) {
+						tmp = new ArrayList<Board>(b.getChildren(i, j, Board.B));
+					} else {
+						Board c = new Board(b);
+						tmp = new ArrayList<Board>(c.getChildren(i, j, Board.B));
+					}
+					
+					for(Board child : tmp) {
+						children.add(child);
+					}
 				}
 			}
+
+			/*Iterator<Board> it = childSet.iterator();
+			
+			while(it.hasNext()) {
+				children.add(it.next());
+			}*/
+
 			
 			max = Integer.MIN_VALUE;
 			
-			for(int i=0; i<36; i++) {
-				for(Board child : poss.get(i)) {
+			for(Board child : children) {
+				
+				Board temp = min(child, depth+1, d1, d2);
+				
+				if(temp.evaluate() > max && temp.getLastColPlayed()==Board.B) {
 					
-					Board temp = min(child, depth+1, d1, d2);
-					
-					if(temp.evaluate() > max) {
-						
-						max = temp.evaluate();
-						maxBoard = new Board(temp);
-					}
-					
+					max = temp.evaluate();
+					maxBoard = new Board(temp);
 				}
+				
 			}
 		}
 		return maxBoard;

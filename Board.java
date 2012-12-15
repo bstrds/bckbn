@@ -406,7 +406,11 @@ public class Board {
 				if(moveIsLegal(moves[i].getFrom(), moves[i].getTo(), col, d1, d2)) {
 					Board child = new Board(this);
 					child.playMove(moves[i].getFrom(), moves[i].getTo(), col);
-					temp.add(child);
+					if(child.isTerminal()) {
+						childSet.add(child);
+					} else {
+						temp.add(child);
+					}
 				}
 			}
 		
@@ -499,14 +503,26 @@ public class Board {
 			
 			for(Board temp1 : t1) {
 				
+				if(temp1.isTerminal()) {
+					childSet.add(temp1);
+					break;
+				}
 				t2 = temp1.getChildren(d1, col);
 				
 				for(Board temp2 : t2) {
 					
+					if(temp2.isTerminal()) {
+						childSet.add(temp2);
+						break;
+					}
 					t3 = temp2.getChildren(d1, col);
 					
 					for(Board temp3 : t3) {
 						
+						if(temp3.isTerminal()) {
+							childSet.add(temp3);
+							break;
+						}
 						t4 = temp3.getChildren(d1, col);
 						
 						for(Board child : t4) {
@@ -569,39 +585,19 @@ public class Board {
 		}
 		
 		if(positions[0].getNum()>0) {
-			wsum -= 6;
+			wsum -= positions[0].getNum()*4;
 		}
 		
 		if(positions[26].getNum()>0) {
-			wsum += 5;
-			if(positions[26].getNum()==15) {
-				wsum += 20;
-				bsum -= 20;
-			} else if(positions[26].getNum()>3) {
-				wsum += 6;
-			} else if(positions[26].getNum()>5) {
-				wsum += 8;
-			} else if(positions[26].getNum()>10) {
-				wsum += 15;
-			}
+			wsum += positions[26].getNum()*5;
 		}
 		
 		if(positions[25].getNum()>0) {
-			bsum -= 6;
+			bsum -= positions[25].getNum()*4;
 		}
 		
 		if(positions[27].getNum()>0) {
-			bsum += 5;
-			if(positions[27].getNum()==15) {
-				bsum += 20;
-				wsum -= 20;
-			} else if(positions[27].getNum()>3) {
-				bsum += 6;
-			} else if(positions[27].getNum()>5) {
-				bsum += 8;
-			} else if(positions[27].getNum()>10) {
-				bsum += 15;
-			}
+			bsum += positions[27].getNum()*5;
 		}
 		
 		return bsum - wsum;
