@@ -2,8 +2,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Player Bplayer = new Player(0, Board.B);
-		Player Wplayer = new Player(2, Board.W);
+		Player Bplayer = new Player(1, Board.B);
+		Player Wplayer = new Player(1, Board.W);
 		
 		/* initializing the Move boards 
 		 * for human players*/
@@ -46,7 +46,7 @@ public class Test {
 						System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
 						
 						b = new Board(Wplayer.MiniMax(b, Wplayer.getD1(), Wplayer.getD2()));
-
+						counter = 0;
 					}
 					
 					break;
@@ -72,7 +72,7 @@ public class Test {
 						System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
 						
 						b = new Board(Bplayer.MiniMax(b, Bplayer.getD1(), Bplayer.getD2()));
-	
+						counter = 0;
 					}
 					
 					break;
@@ -80,11 +80,12 @@ public class Test {
 					break;
 			}
 			b.print();
+			System.out.println("Board evaluation = "+b.evaluate());
 		}
 		Position[] pos = b.getPositions();
-		if(pos[26].getNum()==5)
+		if(pos[26].getNum()==15)
 			System.out.println("\nWhite Wins!\n");
-		else if(pos[27].getNum()==5)
+		else if(pos[27].getNum()==15)
 			System.out.println("\nBlack Wins!\n");
 	}
 }

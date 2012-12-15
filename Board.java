@@ -20,7 +20,7 @@ public class Board {
 		lastMove = new Move();
 		
 		/* edit this to change who plays first */
-		lastColorPlayed = B;
+		lastColorPlayed = W;
 
 		positions = new Position[28];
 		for(int i=0; i<28; i++) {
@@ -164,7 +164,7 @@ public class Board {
 		
 		boolean direction = (((col==Board.W) && ((to-from)>0)) || ((col==Board.B) && ((to-from)<0))); 
 		
-		if(!direction) {
+		if(!direction && to!=27) {
 			return false;
 		}
 		
@@ -417,14 +417,18 @@ public class Board {
 				if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d1) {
 					
 					temp2 = child.getChildren(d2, col);
-					for(Board tempchild : temp2) {
-						childSet.add(tempchild);
+					if(!temp2.isEmpty()) {
+						for(Board tempchild : temp2) {
+							childSet.add(tempchild);
+						}
 					}
 				} else if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d2) {
 					
 					temp2 = child.getChildren(d1, col);
-					for(Board tempchild : temp2) {
-						childSet.add(tempchild);
+					if(!temp2.isEmpty()) {
+						for(Board tempchild : temp2) {
+							childSet.add(tempchild);
+						}
 					}
 				} else {
 					if(col==W) {
@@ -572,6 +576,13 @@ public class Board {
 			wsum += 5;
 			if(positions[26].getNum()==15) {
 				wsum += 20;
+				bsum -= 20;
+			} else if(positions[26].getNum()>3) {
+				wsum += 6;
+			} else if(positions[26].getNum()>5) {
+				wsum += 8;
+			} else if(positions[26].getNum()>10) {
+				wsum += 15;
 			}
 		}
 		
@@ -583,6 +594,13 @@ public class Board {
 			bsum += 5;
 			if(positions[27].getNum()==15) {
 				bsum += 20;
+				wsum -= 20;
+			} else if(positions[27].getNum()>3) {
+				bsum += 6;
+			} else if(positions[27].getNum()>5) {
+				bsum += 8;
+			} else if(positions[27].getNum()>10) {
+				bsum += 15;
 			}
 		}
 		

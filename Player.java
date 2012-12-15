@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 public class Player {
@@ -72,8 +73,6 @@ public class Player {
 			
 			/* checking if we are in lastrun mode */
 			boolean lastrun = tempB.lastrun(playerColor);
-			
-			System.out.println("lastrun = "+lastrun);
 			
 			while(!gotit) {
 				
@@ -205,7 +204,32 @@ public class Player {
 			}
 		} else {
 			
-			minBoard = chance(b, depth, MIN);
+			Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>();
+			
+			byte index = 0;
+			
+			for(int i=0; i<6; i++) {
+				for(int j=0; j<6; j++) {
+					
+					poss.add(index, b.getChildren(i, j, Board.W));
+					index++;
+				}
+			}
+			
+			min = Integer.MAX_VALUE;
+			
+			for(int i=0; i<36; i++) {
+				for(Board child : poss.get(i)) {
+					
+					Board temp = max(child, depth+1, d1, d2);
+					
+					if(temp.evaluate() < min) {
+						
+						min = temp.evaluate();
+						minBoard = new Board(temp);
+					}
+				}
+			}
 		}
 		return minBoard;
 	}
@@ -238,13 +262,39 @@ public class Player {
 			}
 		} else {
 			
-			maxBoard = chance(b, depth, MAX);
+			Vector<ArrayList<Board>> poss = new Vector<ArrayList<Board>>(); 
 			
+			byte index = 0;
+			
+			for(int i=0; i<6; i++) {
+				for(int j=0; j<6; j++) {
+					
+					poss.add(index, b.getChildren(i, j, Board.B));
+					index++;
+				}
+			}
+			
+			max = Integer.MIN_VALUE;
+			
+			for(int i=0; i<36; i++) {
+				for(Board child : poss.get(i)) {
+					
+					Board temp = min(child, depth+1, d1, d2);
+					
+					if(temp.evaluate() > max) {
+						
+						max = temp.evaluate();
+						maxBoard = new Board(temp);
+					}
+					
+				}
+			}
 		}
 		return maxBoard;
 	}
 	
-	public Board chance(Board b, int depth, int caller) {
+	
+	/*public Board chance(Board b, int depth, int caller) {
 		
 		Board[] moves = new Board[21];
 		
@@ -296,6 +346,6 @@ public class Player {
 		}
 		
 		return val;
-	}
+	}*/
 	
 }
