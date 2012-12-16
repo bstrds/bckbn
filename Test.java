@@ -12,24 +12,20 @@ public class Test {
 		
 		int counter = 0;
 		
-		boolean fuck = false;
-		
 		Board b = new Board();
 		
-		Board fucku = new Board();
-		
-		b.print();
+		//b.print();
 		
 		while(!b.isTerminal()) {
 			
-			System.out.println();
+			//System.out.println();
 			counter++;
 			
 			switch(b.getLastColPlayed()) {
 				
 				case Board.B:
 					
-					System.out.println("White moves");
+					//System.out.println("White moves");
 					
 					if(counter==1)
 						Wplayer.roll();
@@ -47,7 +43,7 @@ public class Test {
 						}
 					} else {
 						
-						System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
+						//System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
 						
 						b = new Board(Wplayer.MiniMax(b, Wplayer.getD1(), Wplayer.getD2()));
 						
@@ -60,7 +56,7 @@ public class Test {
 				
 				case Board.W:
 					
-					System.out.println("Black moves");
+					//System.out.println("Black moves");
 					
 					if(counter==1)
 						Bplayer.roll();
@@ -76,7 +72,7 @@ public class Test {
 							}
 						}
 					} else {
-						System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
+						//System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
 						
 						b = new Board(Bplayer.MiniMax(b, Bplayer.getD1(), Bplayer.getD2()));
 						
@@ -89,27 +85,16 @@ public class Test {
 				default:
 					break;
 			}
-			b.print();
-			System.out.println("Board evaluation = "+b.evaluate());
-			if(b.getPositions()[26].getNum() > 0 || b.getPositions()[27].getNum()>0) {
-				fuck = true;
-			}
 			
-			if(b.hashCode()==fucku.hashCode()) {
-				System.out.println("\n\n\n\n FUCK FUCK FUCK!!!\n\n\n\n");
-				break;
-			}
+			//b.print();
 			
-			if(fuck && (b.getPositions()[26].getNum()==0 && b.getPositions()[27].getNum()==0)) {
-				System.out.println("\n\n\n\n FUCK!!! \n\n\n\n");
-				break;
-			}
-			
+			//System.out.println("Board evaluation = "+b.evaluate());
+
 		}
 		Position[] pos = b.getPositions();
 		if(pos[26].getNum()==15)
-			System.out.println("\nWhite Wins!\n");
+			System.out.println("White Wins!");
 		else if(pos[27].getNum()==15)
-			System.out.println("\nBlack Wins!\n");
+			System.out.println("Black Wins!");
 	}
 }

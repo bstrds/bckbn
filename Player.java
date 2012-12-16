@@ -193,13 +193,12 @@ public class Player {
 		}
 		
 		Board minBoard = new Board();
-		int min;
 		
 		if(depth==0) {
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.W);
 			
-			min = Integer.MAX_VALUE;
+			int min = Integer.MAX_VALUE;
 			
 			for(Board child : children) {
 				
@@ -244,33 +243,52 @@ public class Player {
 				tmp = new ArrayList<Board>(b.getChildren(d1, d2, Board.W));
 				
 				for(Board child : tmp) {
-					children.add(child);
+					/* setting the dice that were played on the 
+					 * board for future use */
+					child.setd1Pl(d1);
+					child.setd2Pl(d2);
+					
 					child.setParent(b);
+					
+					children.add(child);
 				}
 			}
 			
-			min = Integer.MAX_VALUE;
+			int counter = 0;
+			
+			int value = 0;
 			
 			for(Board child : children) {
 				
 				Board temp = max(child, depth+1, d1, d2);
 				
+				byte D1 = child.getd1Pl();
+				byte D2 = child.getd2Pl();
+				
 				if(temp!=null) {
 					
-					if(temp.evaluate() < min) {
-						
-						min = temp.evaluate();
-						child.getParent().setValue(temp.evaluate());
+					counter++;
+					
+					if(D1==D2) {
+						value += temp.evaluate()*2;
+					} else {
+						value += temp.evaluate();
 					}
 				} else {
 					
-					if(child.getValue() < min) {
-						
-						min = child.getValue();
-						child.getParent().setValue(child.getValue());
+					counter++;
+					
+					if(D1==D2) {
+						value += child.getValue()*2;
+					} else {
+						value += child.getValue();
 					}
 				}
 			}
+			if(counter!=0) 
+				b.setValue(value/counter);
+			else 
+				b.setValue(0);
 		}
 		return null;
 	}
@@ -283,13 +301,12 @@ public class Player {
 		}	
 		
 		Board maxBoard = new Board();
-		int max;
 		
 		if(depth==0) {
 			
 			ArrayList<Board> children = b.getChildren(d1, d2, Board.B);
 			
-			max = Integer.MIN_VALUE;
+			int max = Integer.MIN_VALUE;
 			
 			for(Board child : children) {
 				
@@ -334,33 +351,52 @@ public class Player {
 				tmp = new ArrayList<Board>(b.getChildren(d1, d2, Board.B));
 				
 				for(Board child : tmp) {
-					children.add(child);
+					
+					child.setd1Pl(d1);
+					child.setd2Pl(d2);
+					
 					child.setParent(b);
+					
+					children.add(child);
 				}
 			}
 
-			max = Integer.MIN_VALUE;
+			//max = Integer.MIN_VALUE;
+			int counter = 0;
+			
+			int value = 0;
 			
 			for(Board child : children) {
 				
 				Board temp = min(child, depth+1, d1, d2);
 				
+				byte D1 = child.getd1Pl();
+				byte D2 = child.getd2Pl();
+				
 				if(temp!=null) {
 					
-					if(temp.evaluate() > max) {
-						
-						max = temp.evaluate();
-						child.getParent().setValue(temp.evaluate());
+					counter++;
+					
+					if(D1==D2) {
+						value += temp.evaluate()*2;
+					} else {
+						value += temp.evaluate();
 					}
 				} else {
 					
-					if(child.getValue() > max) {
-						
-						max = child.getValue();
-						child.getParent().setValue(child.getValue());
+					counter++;
+					
+					if(D1==D2) {
+						value += child.getValue()*2;
+					} else {
+						value += child.getValue();
 					}
 				}
 			}
+			if(counter!=0)
+				b.setValue(value/counter);
+			else
+				b.setValue(0);
 		}
 		return null;
 	}

@@ -19,6 +19,10 @@ public class Board {
 	
 	private Board parent;
 	
+	byte d1Pl;
+	
+	byte d2Pl;
+	
 	public Board() {
 		
 		lastMove = new Move();
@@ -101,6 +105,14 @@ public class Board {
 		return parent;
 	}
 	
+	public byte getd1Pl() {
+		return d1Pl;
+	}
+	
+	public byte getd2Pl() {
+		return d2Pl;
+	}
+	
 	public void setLastMove(Move lastMove) {
 		
 		this.lastMove.setFrom(lastMove.getFrom());
@@ -127,6 +139,14 @@ public class Board {
 
 	public void setParent(Board parent) { 
 		this.parent = parent;
+	}
+	
+	public void setd1Pl(byte d1Pl) {
+		this.d1Pl = d1Pl;
+	}
+	
+	public void setd2Pl(byte d2Pl) {
+		this.d2Pl = d2Pl;
 	}
 
 	public void playMove(byte from, byte to, byte col) {
