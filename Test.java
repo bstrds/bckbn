@@ -11,21 +11,22 @@ public class Test {
 		Move Bmove[] = new Move[0];
 		
 		int counter = 0;
+		int movecounter = 0;
 		
 		Board b = new Board();
 		
-		//b.print();
+		b.print();
 		
 		while(!b.isTerminal()) {
 			
-			//System.out.println();
+			System.out.println();
 			counter++;
 			
 			switch(b.getLastColPlayed()) {
 				
 				case Board.B:
 					
-					//System.out.println("White moves");
+					System.out.println("White moves");
 					
 					if(counter==1)
 						Wplayer.roll();
@@ -43,20 +44,22 @@ public class Test {
 						}
 					} else {
 						
-						//System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
+						System.out.println("White rolled "+Wplayer.getD1()+" and "+Wplayer.getD2()+" .");
 						
 						b = new Board(Wplayer.MiniMax(b, Wplayer.getD1(), Wplayer.getD2()));
 						
 						b.setLastColPlayed(Board.W);
 
 						counter = 0;
+						
+						movecounter++;
 					}
 					
 					break;
 				
 				case Board.W:
 					
-					//System.out.println("Black moves");
+					System.out.println("Black moves");
 					
 					if(counter==1)
 						Bplayer.roll();
@@ -72,13 +75,15 @@ public class Test {
 							}
 						}
 					} else {
-						//System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
+						System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
 						
 						b = new Board(Bplayer.MiniMax(b, Bplayer.getD1(), Bplayer.getD2()));
 						
 						b.setLastColPlayed(Board.B);
 						
 						counter = 0;
+						
+						movecounter++;
 					}
 					
 					break;
@@ -86,9 +91,9 @@ public class Test {
 					break;
 			}
 			
-			//b.print();
+			b.print();
 			
-			//System.out.println("Board evaluation = "+b.evaluate());
+			System.out.println("Board value = "+b.getValue());
 
 		}
 		Position[] pos = b.getPositions();
@@ -96,5 +101,7 @@ public class Test {
 			System.out.println("White Wins!");
 		else if(pos[27].getNum()==15)
 			System.out.println("Black Wins!");
+		
+		System.out.println("Moves played : "+movecounter);
 	}
 }

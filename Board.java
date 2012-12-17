@@ -9,26 +9,37 @@ public class Board {
 	public static final byte B = -1;
 	public static final byte EMPTY = 0;
 	
+	/* the backgammon board */
 	private Position[] positions;
 	
+	/* the last move that was played
+	 * on this board */
 	private Move lastMove;
 	
+	/* the last player that played on this board */
 	private byte lastColorPlayed;
 	
+	/* the value of the board. this is not
+	 * the value of the heuristic, it is the
+	 * value that is pushed from leaf boards(nodes)
+	 * to non-leaf boards while minimax is
+	 * being executed */
 	private int value;
 	
+	//TODO:see if i actually need this.
 	private Board parent;
 	
-	byte d1Pl;
-	
-	byte d2Pl;
+	/* the values of the two dice that were
+	 * last played on the board */
+	private byte d1Pl;
+	private byte d2Pl;
 	
 	public Board() {
 		
 		lastMove = new Move();
 		
 		/* edit this to change who plays first */
-		lastColorPlayed = W;
+		lastColorPlayed = B;
 		
 		value = 0;
 		
@@ -75,6 +86,8 @@ public class Board {
 		this.value = board.value;
 		this.parent = board.parent;
 		this.positions = new Position[28];
+		this.d1Pl = board.d1Pl;
+		this.d2Pl = board.d2Pl;
 		for(int i=0; i<28; i++) {
 			positions[i] = new Position(board.positions[i]);
 		}
@@ -152,13 +165,14 @@ public class Board {
 	public void playMove(byte from, byte to, byte col) {
 		
 		/* checking who wants to make the move, and manipulating
-		 * the board accordingly
+		 * the board accordingly. 
+		 * 
+		 * in the case below, the black pill in position [to] 
+		 * is eaten, so we store it in position [25] the 'else'
+		 * statement is written with the same logic.
 		 */
 		if(col==W) {
-			/* in the case below, the black pill in position [to] is
-			 * eaten, so we store it in position [25] the 'else'
-			 * statement is written with the same logic
-			 */
+	
 			if(positions[to].getCol()==B) {
 				positions[to].decr();
 				positions[25].incr();
@@ -184,6 +198,11 @@ public class Board {
 	
 	public boolean lastrun(byte col) {
 		
+		/* the board is checked to see if the player
+		 * with color 'col' is in lastrun mode. 
+		 * (the gathering phase of the game) 
+		 */
+		
 		boolean lastrun = true;
 		if(col==W) {
 			for(int j=0; j<19; j++) {
@@ -206,6 +225,8 @@ public class Board {
 	}
 	
 	public boolean moveIsLegal(byte from, byte to, byte col, byte d1, byte d2) {
+		
+		/* various legal checks (hopefully) in order of importance */
 		
 		boolean direction = (((col==Board.W) && ((to-from)>0)) || ((col==Board.B) && ((to-from)<0))); 
 		
@@ -311,10 +332,17 @@ public class Board {
 			}
 		}
 		
+		//TODO:could possibly be a spot to assign dice plated values
+		
 		return true;
 	}
 	
 	public Move[] movegen(byte d1,byte d2, byte col) {
+		
+		/* this generates an array of moves on the current board.
+		 * the moves need not be legal. this method is 
+		 * called only for single(non-double) dice rolls.
+		 */
 		
 		int counter = 0;
 		
@@ -324,7 +352,8 @@ public class Board {
 		
 		/* counting how many positions contain
 		 * pills of our given color , and 
-		 * adding those positions to a set */
+		 * adding those positions to a set 
+		 */
 		for(int i=0; i<26; i++) {
 			if(positions[i].getCol()==col && positions[i].getNum()>0) {
 				counter++;
@@ -334,8 +363,8 @@ public class Board {
 		
 		/* the moves to be sent to getChildren()
 		 * are 2 per position if
-		 * we have a regular roll*/
-		
+		 * we have a regular roll
+		 */
 		moves = new Move[counter*2];
 		
 		Iterator<Integer> it = froms.iterator();
@@ -427,7 +456,7 @@ public class Board {
 				
 				temp = it.next();
 				
-				if(temp-dice<0) {
+				if(temp-dice<1) {
 					moves[i] = new Move((byte)temp, (byte)27, col);
 					i++;
 				} else { 
@@ -452,12 +481,10 @@ public class Board {
 			
 			ArrayList<Board> temp = new ArrayList<Board>();
 			
+			/* movegen() fills the moves array with possible
+			 * moves(not necessarily legal ones). 
+			 */
 			Move[] moves = movegen(d1, d2, col);
-			
-			if(moves==null) {
-				System.out.println("\n\n\nNULL1\n\n\n");
-				return null;
-			}
 			
 			for(int i=0; i<moves.length; i++) {
 			
@@ -483,6 +510,8 @@ public class Board {
 						for(Board tempchild : temp2) {
 							childSet.add(tempchild);
 						}
+					} else {
+						childSet.add(child);
 					}
 				} else if(Math.abs(child.getLastMove().getFrom()-child.getLastMove().getTo())==d2) {
 					
@@ -491,34 +520,53 @@ public class Board {
 						for(Board tempchild : temp2) {
 							childSet.add(tempchild);
 						}
+					} else {
+						childSet.add(child);
 					}
 				} else {
+					
 					if(col==W) {
 						if((child.getLastMove().getFrom()+d1) > 24 && child.getLastMove().getFrom()+d2 > 24) {
 							if(d1<d2) {
 								
 								temp2 = child.getChildren(d1, col);
-								for(Board tempchild : temp2) {
-									childSet.add(tempchild);
+								if(!temp2.isEmpty()) {
+									for(Board tempchild : temp2) {
+										childSet.add(tempchild);
+									}
+								} else {
+									childSet.add(child);
 								}
 							} else {
 								
 								temp2 = child.getChildren(d2, col);
-								for(Board tempchild : temp2) {
-									childSet.add(tempchild);
+								if(!temp2.isEmpty()) {
+									for(Board tempchild : temp2) {
+										childSet.add(tempchild);
+									}
+								} else {
+									childSet.add(child);
 								}
 							}
 						} else if(child.getLastMove().getFrom()+d1 == 25) {
 							
 							temp2 = child.getChildren(d2, col);
-							for(Board tempchild : temp2) {
-								childSet.add(tempchild);
+							if(!temp2.isEmpty()) {	
+								for(Board tempchild : temp2) {
+									childSet.add(tempchild);
+								}
+							} else {
+								childSet.add(child);
 							}
 						} else if(child.getLastMove().getFrom()+d2 == 25) {
 							
 							temp2 = child.getChildren(d1, col);
-							for(Board tempchild : temp2) {
-								childSet.add(tempchild);
+							if(!temp2.isEmpty()) {
+								for(Board tempchild : temp2) {
+									childSet.add(tempchild);
+								}
+							} else {
+								childSet.add(child);
 							}
 						}
 					} else if(col==B) {
@@ -526,30 +574,45 @@ public class Board {
 							if(d1<d2) {
 								
 								temp2 = child.getChildren(d1, col);
-								for(Board tempchild : temp2) {
-									childSet.add(tempchild);
+								if(!temp2.isEmpty()) {
+									for(Board tempchild : temp2) {
+										childSet.add(tempchild);
+									}
+								} else {
+									childSet.add(child);
 								}
 							} else {
 								
 								temp2 = child.getChildren(d2, col);
-								for(Board tempchild : temp2) {
-									childSet.add(tempchild);
+								if(!temp2.isEmpty()) {
+									for(Board tempchild : temp2) {
+										childSet.add(tempchild);
+									}
+								} else {
+									childSet.add(child);
 								}
 							}
 						} else if(child.getLastMove().getFrom()-d1 == 0) {
 							
 							temp2 = child.getChildren(d2, col);
-							for(Board tempchild : temp2) {
-								childSet.add(tempchild);
+							if(!temp2.isEmpty()) {
+								for(Board tempchild : temp2) {
+									childSet.add(tempchild);
+								}
+							} else {
+								childSet.add(child);
 							}
 						} else if(child.getLastMove().getFrom()-d2 == 0) {
 							
 							temp2 = child.getChildren(d1, col);
-							for(Board tempchild : temp2) {
-								childSet.add(tempchild);
+							if(!temp2.isEmpty()) {
+								for(Board tempchild : temp2) {
+									childSet.add(tempchild);
+								}
+							} else {
+								childSet.add(child);
 							}
 						}
-
 					}
 				}
 			}
@@ -565,14 +628,16 @@ public class Board {
 					childSet.add(temp1);
 					break;
 				}
-				t2 = temp1.getChildren(d1, col);
 				
+				t2 = temp1.getChildren(d1, col);
+			
 				for(Board temp2 : t2) {
 					
 					if(temp2.isTerminal()) {
 						childSet.add(temp2);
 						break;
 					}
+					
 					t3 = temp2.getChildren(d1, col);
 					
 					for(Board temp3 : t3) {
@@ -581,6 +646,7 @@ public class Board {
 							childSet.add(temp3);
 							break;
 						}
+					
 						t4 = temp3.getChildren(d1, col);
 						
 						for(Board child : t4) {
