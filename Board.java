@@ -186,7 +186,7 @@ public class Board {
 		}
 		
 		positions[from].decr();
-		if(positions[from].getNum()==0) {
+		if(positions[from].getNum()==0 && from!=0 && from !=25) {
 			positions[from].setCol(EMPTY);
 		}
 		positions[to].incr();
@@ -264,11 +264,11 @@ public class Board {
 			return false;
 		}
 		
-		if(col==W && positions[0].getNum()>0 && from != 0) {
+		if((col==W && positions[0].getNum()>0) && from != 0) {
 			return false;
 		}
 		
-		if(col==B && positions[25].getNum()>0 && from !=25) {
+		if((col==B && positions[25].getNum()>0) && from !=25) {
 			return false;
 		}
 		
