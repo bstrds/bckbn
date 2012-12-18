@@ -43,6 +43,9 @@ public class Test {
 									counter = 0;
 								}
 							}
+						} else {
+							b.setLastColPlayed(Board.W);
+							counter = 0;
 						}
 					} else {
 						
@@ -77,6 +80,9 @@ public class Test {
 									counter = 0;
 								}
 							}
+						} else {
+							b.setLastColPlayed(Board.B);
+							counter = 0;
 						}
 					} else {
 						System.out.println("Black rolled "+Bplayer.getD1()+" and "+Bplayer.getD2()+" .");
