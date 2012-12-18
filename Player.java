@@ -47,6 +47,9 @@ public class Player {
 	
 	public Move[] inputMove(Board b) {
 		
+		if(b.getChildren(d1, d2, playerColor).isEmpty())
+			return null;
+		
 		Move[] moves;
 		String fr;
 		String t;
@@ -168,7 +171,7 @@ public class Player {
 			Board max = max(new Board(b), 0, d1 ,d2);
 			
 			if(max.hashCode()==NEWBOARD) {
-				System.out.println("\n\nFUUUUU\n\n");
+				//System.out.println("\n\nFUUUUU\n\n");
 				return b;
 			} else {
 				return max;
@@ -179,7 +182,7 @@ public class Player {
 			Board min = min(new Board(b), 0, d1, d2);
 			
 			if(min.hashCode()==NEWBOARD) {
-				System.out.println("\n\nFUUUUU\n\n");
+				//System.out.println("\n\nFUUUUU\n\n");
 				return b;
 			} else {
 				return min;

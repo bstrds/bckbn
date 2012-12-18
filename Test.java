@@ -3,7 +3,7 @@ public class Test {
 	public static void main(String[] args) {
 		
 		Player Bplayer = new Player((byte)3, Board.B);
-		Player Wplayer = new Player((byte)2, Board.W);
+		Player Wplayer = new Player((byte)0, Board.W);
 		
 		/* initializing the Move boards 
 		 * for human players*/
@@ -36,10 +36,12 @@ public class Test {
 						
 						Wmove = Wplayer.inputMove(b);
 						
-						for(int i=0; i<Wmove.length; i++) {
-							if(b.moveIsLegal(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W, Wplayer.getD1(), Wplayer.getD2())) {
-								b.playMove(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W );
-								counter = 0;
+						if(Wmove != null) {
+							for(int i=0; i<Wmove.length; i++) {
+								if(b.moveIsLegal(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W, Wplayer.getD1(), Wplayer.getD2())) {
+									b.playMove(Wmove[i].getFrom(), Wmove[i].getTo(), Board.W );
+									counter = 0;
+								}
 							}
 						}
 					} else {
@@ -68,10 +70,12 @@ public class Test {
 						
 						Bmove = Bplayer.inputMove(b);
 						
-						for(int i=0; i<Bmove.length; i++) {
-							if(b.moveIsLegal(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B, Bplayer.getD1(), Bplayer.getD2())) {
-								b.playMove(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B );
-								counter = 0;
+						if(Bmove!=null) {	
+							for(int i=0; i<Bmove.length; i++) {
+								if(b.moveIsLegal(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B, Bplayer.getD1(), Bplayer.getD2())) {
+									b.playMove(Bmove[i].getFrom(), Bmove[i].getTo(), Board.B );
+									counter = 0;
+								}
 							}
 						}
 					} else {
