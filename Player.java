@@ -47,8 +47,14 @@ public class Player {
 	
 	public Move[] inputMove(Board b) {
 		
-		if(b.getChildren(d1, d2, playerColor).isEmpty())
+		if(b.getChildren(d1, d2, playerColor).isEmpty()) {
+			if(playerColor==Board.W)
+				System.out.println("White rolled "+d1+" and "+d2+" , but it's not very effective..");
+			else 
+				System.out.println("Black rolled "+d1+" and "+d2+" , but it's not very effective..");
 			return null;
+		}
+			
 		
 		Move[] moves;
 		String fr;
