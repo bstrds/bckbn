@@ -2,10 +2,11 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		if(args.length==0) {
-			System.out.println("\nUsage: \'java Test [black player depth] [white player depth]\'\n" +
+		if(args.length<2) {
+			System.out.println("Usage: java Test [black player depth] [white player depth]\n\n" +
 					"A depth with value '0' can be given for humans to play.\n" +
-					"Recommended depth values are 1-3. Anything bigger than that will resul in a very slow game :)\n");
+					"Recommended depth values are 1-3.\nAnything bigger than that will resul in a very slow game :)\n\n" +
+					"Supplying both depths is now mandatory (O`_´O)\n");
 			return;
 		}
 		
