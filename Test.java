@@ -9,25 +9,19 @@ public class Test {
 					"Supplying both depths is now mandatory (O`_´O)\n");
 			return;
 		}
-		
-		boolean done = false;
-		
+
 		Player Bplayer = null;
 		Player Wplayer = null;
 		
-		while(!done) {
-			try {
-				Bplayer = new Player(Byte.parseByte(args[0]), Board.B);
-				Wplayer = new Player(Byte.parseByte(args[1]), Board.W);
-				done = true;
-			} catch(Exception e) {
-				System.out.println("Player depth values *have* to be integers :P");
-				return;
-			}
+	
+		try {
+			Bplayer = new Player(Byte.parseByte(args[0]), Board.B);
+			Wplayer = new Player(Byte.parseByte(args[1]), Board.W);
+		} catch(Exception e) {
+			System.out.println("Player depth values *have* to be integers :P");
+			return;
 		}
-		
-		
-		
+	
 		/* initializing the Move boards 
 		 * for human players*/
 		Move Wmove[] = new Move[0];
