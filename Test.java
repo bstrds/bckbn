@@ -2,8 +2,30 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Player Bplayer = new Player((byte)2, Board.B);
-		Player Wplayer = new Player((byte)2, Board.W);
+		if(args.length==0) {
+			System.out.println("\nUsage: \'java Test [black player depth] [white player depth]\'\n" +
+					"A depth with value '0' can be given for humans to play.\n" +
+					"Recommended depth values are 1-3. Anything bigger than that will resul in a very slow game :)\n");
+			return;
+		}
+		
+		boolean done = false;
+		
+		Player Bplayer = null;
+		Player Wplayer = null;
+		
+		while(!done) {
+			try {
+				Bplayer = new Player(Byte.parseByte(args[0]), Board.B);
+				Wplayer = new Player(Byte.parseByte(args[1]), Board.W);
+				done = true;
+			} catch(Exception e) {
+				System.out.println("Player depth values *have* to be integers :P");
+				return;
+			}
+		}
+		
+		
 		
 		/* initializing the Move boards 
 		 * for human players*/

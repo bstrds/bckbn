@@ -176,6 +176,7 @@ public class Player {
 			
 			Board max = max(new Board(b), 0, d1 ,d2);
 			
+			/* if there are no legal moves to be played */
 			if(max.hashCode()==NEWBOARD) {
 				//System.out.println("\n\nFUUUUU\n\n");
 				return b;
@@ -187,6 +188,7 @@ public class Player {
 			
 			Board min = min(new Board(b), 0, d1, d2);
 			
+			/* if there are no legal moves to be played */
 			if(min.hashCode()==NEWBOARD) {
 				//System.out.println("\n\nFUUUUU\n\n");
 				return b;
