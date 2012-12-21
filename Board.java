@@ -732,6 +732,47 @@ public class Board {
 		return bsum - wsum;
 	}
 	
+public int evaluate_modie() {
+		
+		int bsum = 0;
+		int wsum = 0;
+		
+		for(int i=1; i<25; i++) {
+			
+			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
+				bsum += 6;
+			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
+				bsum -= 5;
+			}
+			
+			if(positions[i].getNum()>1 && positions[i].getCol()==W) {
+				wsum += 6;
+			} else if(positions[i].getNum()==1 && positions[i].getCol()==W) {
+				wsum -= 5;
+			}
+		}
+		
+		if(positions[0].getNum()>0) {
+			wsum -= positions[0].getNum()*4;
+			bsum += positions[0].getNum()*4;
+		}
+		
+		if(positions[26].getNum()>0) {
+			wsum += positions[26].getNum()*5;
+		}
+		
+		if(positions[25].getNum()>0) {
+			bsum -= positions[25].getNum()*4;
+			wsum += positions[25].getNum()*4;
+		}
+		
+		if(positions[27].getNum()>0) {
+			bsum += positions[27].getNum()*5;
+		}
+		
+		return bsum - wsum;
+	}
+	
 	public boolean isTerminal() {
 		
 		if(positions[26].getNum()==15 || positions[27].getNum()==15) {

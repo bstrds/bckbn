@@ -198,7 +198,7 @@ public class Player {
 	
 	public Board min(Board b, int depth, byte d1, byte d2) {
 		
-		if(b.isTerminal() || depth==maxDepth) {
+		if(b.isTerminal() || depth>=maxDepth) {
 			
 			return b;
 		}
@@ -306,7 +306,7 @@ public class Player {
 	
 	public Board max(Board b, int depth, byte d1, byte d2) {
 		
-		if(b.isTerminal() || depth==maxDepth) {
+		if(b.isTerminal() || depth>=maxDepth) {
 			
 			return b;
 		}	
@@ -372,7 +372,6 @@ public class Player {
 				}
 			}
 
-			//max = Integer.MIN_VALUE;
 			int counter = 0;
 			
 			int value = 0;
@@ -389,9 +388,9 @@ public class Player {
 					counter++;
 					
 					if(D1==D2) {
-						value += temp.evaluate()*2;
+						value += temp.evaluate_modie()*2;
 					} else {
-						value += temp.evaluate();
+						value += temp.evaluate_modie();
 					}
 				} else {
 					

@@ -11,4 +11,4 @@ do
 	fi
 done
 
-echo "$count"
+echo "$count white wins in $1 games"
