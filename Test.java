@@ -3,7 +3,8 @@ public class Test {
 	public static void main(String[] args) {
 		
 		if(args.length<2) {
-			System.out.println("Usage: java Test [black player depth] [white player depth]\n\n" +
+			System.out.println("Usage: java Test [black player depth] [white player depth]\n" +
+					"Ex:    java Test 2 3\n\n" +
 					"A depth with value '0' can be given for humans to play.\n" +
 					"Recommended depth values are 1-3.\nAnything bigger than that will resul in a very slow game :)\n\n" +
 					"Supplying both depths is now mandatory (O`_´O)\n");
@@ -12,13 +13,18 @@ public class Test {
 
 		Player Bplayer = null;
 		Player Wplayer = null;
-		
 	
 		try {
-			Bplayer = new Player(Byte.parseByte(args[0]), Board.B);
-			Wplayer = new Player(Byte.parseByte(args[1]), Board.W);
+			byte b_depth = Byte.parseByte(args[0]);
+			byte w_depth = Byte.parseByte(args[1]);
+			if(b_depth<0 || w_depth<0) {
+				System.out.println("Player depth values *have* to be positive integers :P");
+				return;
+			}
+			Bplayer = new Player(b_depth, Board.B);
+			Wplayer = new Player(w_depth, Board.W);
 		} catch(Exception e) {
-			System.out.println("Player depth values *have* to be integers :P");
+			System.out.println("Player depth values *have* to be positive integers :P");
 			return;
 		}
 	
