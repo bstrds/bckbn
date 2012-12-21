@@ -2,8 +2,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Player Bplayer = new Player((byte)3, Board.B);
-		Player Wplayer = new Player((byte)0, Board.W);
+		Player Bplayer = new Player((byte)1, Board.B);
+		Player Wplayer = new Player((byte)1, Board.W);
 		
 		/* initializing the Move boards 
 		 * for human players*/

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+count=0
+
+for i in $(seq 1 $1)
+do
+	x=`java Test3`
+	echo "$x"
+	if [ "$x" == "White Wins!" ]; then
+		((count++))
+	fi
+done
+
+echo "$count"
