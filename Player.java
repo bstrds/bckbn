@@ -261,8 +261,6 @@ public class Player {
 					child.setd1Pl(d1);
 					child.setd2Pl(d2);
 					
-					child.setParent(b);
-					
 					children.add(child);
 				}
 			}
@@ -367,8 +365,6 @@ public class Player {
 					
 					child.setd1Pl(d1);
 					child.setd2Pl(d2);
-					
-					child.setParent(b);
 					
 					children.add(child);
 				}

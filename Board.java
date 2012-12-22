@@ -26,9 +26,6 @@ public class Board {
 	 * being executed */
 	private int value;
 	
-	//TODO:see if i actually need this.
-	private Board parent;
-	
 	/* the values of the two dice that were
 	 * last played on the board */
 	private byte d1Pl;
@@ -42,8 +39,6 @@ public class Board {
 		lastColorPlayed = B;
 		
 		value = 0;
-		
-		parent = null;
 
 		positions = new Position[28];
 		for(int i=0; i<28; i++) {
@@ -84,7 +79,6 @@ public class Board {
 		this.lastMove = board.lastMove;
 		this.lastColorPlayed = board.lastColorPlayed;
 		this.value = board.value;
-		this.parent = board.parent;
 		this.positions = new Position[28];
 		this.d1Pl = board.d1Pl;
 		this.d2Pl = board.d2Pl;
@@ -112,10 +106,6 @@ public class Board {
 	
 	public int getValue() {
 		return value;
-	}
-	
-	public Board getParent() {
-		return parent;
 	}
 	
 	public byte getd1Pl() {
@@ -148,10 +138,6 @@ public class Board {
 	
 	public void setValue(int value) {
 		this.value = value;
-	}
-
-	public void setParent(Board parent) { 
-		this.parent = parent;
 	}
 	
 	public void setd1Pl(byte d1Pl) {
@@ -331,8 +317,6 @@ public class Board {
 				return false;
 			}
 		}
-		
-		//TODO:could possibly be a spot to assign dice plated values
 		
 		return true;
 	}
