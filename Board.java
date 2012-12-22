@@ -854,7 +854,7 @@ public int evaluate_modie() {
 	    return true;
 	  }
 	
-	public int hashCode() {  
+	/*public int hashCode() {  
 		
 		int hc = 0;
 		int eval = this.evaluate();
@@ -865,5 +865,23 @@ public int evaluate_modie() {
 		}
 		
 	    return hc;
+	}*/ 
+	
+	public int hashCode() {
+		
+		int hc = 5381;
+		int num ,col;	
+		for(int i=0; i<28; i++) { 
+			col = this.positions[i].getCol();
+			num = this.positions[i].getNum();
+			if(col == B) 
+				col = 3;
+			if(col == EMPTY)
+				col = 1;
+			if(col == W)
+				col = 5;
+			hc +=   ((hc << 5 )  + hc  ) +  num + i*col*3;  
+		}
+		return hc;
 	} 
 }
