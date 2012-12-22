@@ -630,6 +630,10 @@ public class Board {
 				}
 				
 				t2 = temp1.getChildren(d1, col);
+				if(t2.isEmpty()) {
+					childSet.add(temp1);
+					continue;
+				}
 			
 				for(Board temp2 : t2) {
 					
@@ -639,6 +643,10 @@ public class Board {
 					}
 					
 					t3 = temp2.getChildren(d1, col);
+					if(t3.isEmpty()) {
+						childSet.add(temp2);
+						continue;
+					}
 					
 					for(Board temp3 : t3) {
 						
@@ -648,6 +656,10 @@ public class Board {
 						}
 					
 						t4 = temp3.getChildren(d1, col);
+						if(t4.isEmpty()) {
+							childSet.add(temp3);
+							continue;
+						}
 						
 						for(Board child : t4) {
 							
@@ -848,7 +860,7 @@ public int evaluate_modie() {
 		
 		for(int i=0; i<28; i++) {
 			
-			hc += (this.positions[i].getNum()+this.positions[i].getCol())*i;
+			hc += ((this.positions[i].getNum()&this.positions[i].getCol())*(this.positions[i].getNum()%127)+this.evaluate()%3089)*i;
 		}
 		
 	    return hc;

@@ -125,6 +125,7 @@ public class Test {
 			}
 			
 			b.print();
+			System.out.println("Board Hashcode : "+b.hashCode());
 			
 			System.out.println("Board value = "+b.getValue());
 
