@@ -178,7 +178,7 @@ public class Player {
 			
 			/* if there are no legal moves to be played */
 			if(max.hashCode()==NEWBOARD) {
-				System.out.println("\n\nFUUUUU\n\n");
+				//System.out.println("\n\nFUUUUU\n\n");
 				return b;
 			} else {
 				return max;
@@ -190,7 +190,7 @@ public class Player {
 			
 			/* if there are no legal moves to be played */
 			if(min.hashCode()==NEWBOARD) {
-				System.out.println("\n\nFUUUUU\n\n");
+				//System.out.println("\n\nFUUUUU\n\n");
 				return b;
 			} else {
 				return min;
