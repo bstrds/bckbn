@@ -857,10 +857,11 @@ public int evaluate_modie() {
 	public int hashCode() {  
 		
 		int hc = 0;
+		int eval = this.evaluate();
 		
 		for(int i=0; i<28; i++) {
 			
-			hc += ((this.positions[i].getNum()&this.positions[i].getCol())*(this.positions[i].getNum()%127)+this.evaluate()%3089)*i;
+			hc += ((this.positions[i].getNum()&this.positions[i].getCol())*(this.positions[i].getNum()^127)&eval)+i*eval*this.positions[i].getCol();
 		}
 		
 	    return hc;
