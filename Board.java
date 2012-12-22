@@ -860,9 +860,9 @@ public int evaluate_modie() {
 			num = this.positions[i].getNum();
 			if(col == B) 
 				col = 3;
-			if(col == EMPTY)
+			else if(col == EMPTY)
 				col = 1;
-			if(col == W)
+			else if(col == W)
 				col = 5;
 			hc +=   ((hc << 5 )  + hc  ) +  num + i*col*3;  
 		}
