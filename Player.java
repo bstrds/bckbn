@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player {
     
@@ -26,8 +27,10 @@ public class Player {
 	
 	public void roll() {
 		
-		this.d1 = (byte)((Math.random()*6)+1);
-		this.d2 = (byte)((Math.random()*6)+1);
+		Random r = new Random();
+		
+		this.d1 = (byte)(r.nextInt(6)+1);
+		this.d2 = (byte)(r.nextInt(6)+1);
 	}
 	
 	public byte getD1() {
@@ -221,6 +224,14 @@ public class Player {
 					
 					min = child.getValue();
 					minBoard = new Board(child);
+				} else if(child.getValue()==min) {
+					
+					byte rand = (byte)(Math.random()*2);
+					
+					if(rand==1) {
+						min = child.getValue();
+						minBoard = new Board(child);
+					}
 				}
 			}
 			
@@ -327,6 +338,14 @@ public class Player {
 					
 					max = child.getValue();
 					maxBoard = new Board(child);
+				} else if(child.getValue()==max) {
+					
+					byte rand = (byte)(Math.random()*2);
+					
+					if(rand==1) {
+						max = child.getValue();
+						maxBoard = new Board(child);
+					}
 				}
 			}
 			
@@ -386,9 +405,9 @@ public class Player {
 					counter++;
 					
 					if(D1==D2) {
-						value += temp.evaluate_modie()*2;
+						value += temp.evaluate()*2;
 					} else {
-						value += temp.evaluate_modie();
+						value += temp.evaluate();
 					}
 				} else {
 					

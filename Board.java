@@ -728,7 +728,7 @@ public class Board {
 		return bsum - wsum;
 	}
 	
-public int evaluate_modie() {
+/*public int evaluate_modie() {
 		
 		int bsum = 0;
 		int wsum = 0;
@@ -736,9 +736,9 @@ public int evaluate_modie() {
 		for(int i=1; i<25; i++) {
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
-				bsum += 6;
+				bsum -= 6;
 			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
-				bsum -= 5;
+				bsum += 5;
 			}
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==W) {
@@ -750,7 +750,7 @@ public int evaluate_modie() {
 		
 		if(positions[0].getNum()>0) {
 			wsum -= positions[0].getNum()*4;
-			bsum += positions[0].getNum()*4;
+			bsum -= positions[0].getNum()*4;
 		}
 		
 		if(positions[26].getNum()>0) {
@@ -758,16 +758,16 @@ public int evaluate_modie() {
 		}
 		
 		if(positions[25].getNum()>0) {
-			bsum -= positions[25].getNum()*4;
+			bsum += positions[25].getNum()*4;
 			wsum += positions[25].getNum()*4;
 		}
 		
 		if(positions[27].getNum()>0) {
-			bsum += positions[27].getNum()*5;
+			bsum -= positions[27].getNum()*5;
 		}
 		
 		return bsum - wsum;
-	}
+	}*/
 	
 	public boolean isTerminal() {
 		
@@ -837,19 +837,6 @@ public int evaluate_modie() {
 		}
 	    return true;
 	  }
-	
-	/*public int hashCode() {  
-		
-		int hc = 0;
-		int eval = this.evaluate();
-		
-		for(int i=0; i<28; i++) {
-			
-			hc += ((this.positions[i].getNum()&this.positions[i].getCol())*(this.positions[i].getNum()^127)&eval)+i*eval*this.positions[i].getCol();
-		}
-		
-	    return hc;
-	}*/ 
 	
 	public int hashCode() {
 		
