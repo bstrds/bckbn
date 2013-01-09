@@ -728,7 +728,7 @@ public class Board {
 		return bsum - wsum;
 	}
 	
-/*public int evaluate_modie() {
+	public int evaluate_modie(int porta, int mono, int fagwma, int out) {
 		
 		int bsum = 0;
 		int wsum = 0;
@@ -736,38 +736,36 @@ public class Board {
 		for(int i=1; i<25; i++) {
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
-				bsum -= 6;
+				bsum -= porta;
 			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
-				bsum += 5;
+				bsum += mono;
 			}
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==W) {
-				wsum += 6;
+				wsum += porta;
 			} else if(positions[i].getNum()==1 && positions[i].getCol()==W) {
-				wsum -= 5;
+				wsum -= mono;
 			}
 		}
 		
 		if(positions[0].getNum()>0) {
-			wsum -= positions[0].getNum()*4;
-			bsum -= positions[0].getNum()*4;
+			wsum -= positions[0].getNum()*fagwma;
 		}
 		
 		if(positions[26].getNum()>0) {
-			wsum += positions[26].getNum()*5;
+			wsum += positions[26].getNum()*out;
 		}
 		
 		if(positions[25].getNum()>0) {
-			bsum += positions[25].getNum()*4;
-			wsum += positions[25].getNum()*4;
+			bsum -= positions[25].getNum()*fagwma;
 		}
 		
 		if(positions[27].getNum()>0) {
-			bsum -= positions[27].getNum()*5;
+			bsum -= positions[27].getNum()*out;
 		}
 		
 		return bsum - wsum;
-	}*/
+	}
 	
 	public boolean isTerminal() {
 		
