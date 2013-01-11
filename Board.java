@@ -730,6 +730,8 @@ public class Board {
 	
 	public int evaluate_modie(int porta, int mono, int fagwma, int out) {
 		
+		//System.out.println(porta+fagwma+mono+out);
+		
 		int bsum = 0;
 		int wsum = 0;
 		

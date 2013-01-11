@@ -13,6 +13,8 @@ public class Player {
 	private byte d1;
 	private byte d2;
 	
+	private int porta, mono, fagwma, out;
+	
 	public Player() {
 		
 		maxDepth = 2;
@@ -23,6 +25,20 @@ public class Player {
 		
 		this.maxDepth = maxDepth;
 		this.playerColor = playerColor;
+	}
+	
+	public Player(byte maxDepth, byte playerColor, int porta, int mono, int fagwma, int out) {
+		
+		
+
+		
+		this.maxDepth = maxDepth;
+		this.playerColor = playerColor;
+		this.porta = porta;
+		this.mono = mono;
+		this.fagwma = fagwma;
+		this.out = out;
+		
 	}
 	
 	public void roll() {
@@ -292,9 +308,18 @@ public class Player {
 					counter++;
 					
 					if(D1==D2) {
-						value += temp.evaluate()*2;
+						
+						if(playerColor==Board.B)
+							value += temp.evaluate_modie(porta, mono, fagwma, out)*2;
+						else if(playerColor==Board.W)
+							value += temp.evaluate()*2;
+						
 					} else {
-						value += temp.evaluate();
+						
+						if(playerColor==Board.B)	
+							value += temp.evaluate_modie(porta, mono, fagwma, out);
+						else if(playerColor==Board.W) 
+							value += temp.evaluate();
 					}
 				} else {
 					
@@ -405,9 +430,18 @@ public class Player {
 					counter++;
 					
 					if(D1==D2) {
-						value += temp.evaluate()*2;
+						
+						if(playerColor==Board.B)
+							value += temp.evaluate_modie(porta, mono, fagwma, out)*2;
+						else if(playerColor==Board.W);
+							value += temp.evaluate()*2;
+							
 					} else {
-						value += temp.evaluate();
+						
+						if(playerColor==Board.B)
+							value += temp.evaluate_modie(porta, mono, fagwma, out);
+						else
+							value += temp.evaluate();
 					}
 				} else {
 					
