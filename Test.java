@@ -13,20 +13,24 @@ public class Test {
 
 		Player Bplayer = null;
 		Player Wplayer = null;
+		
+		byte b_depth;
+		byte w_depth;
 	
 		try {
-			byte b_depth = Byte.parseByte(args[0]);
-			byte w_depth = Byte.parseByte(args[1]);
+			b_depth = Byte.parseByte(args[0]);
+			w_depth = Byte.parseByte(args[1]);
 			if(b_depth<0 || w_depth<0) {
 				System.out.println("Player depth values *have* to be positive integers :P");
 				return;
 			}
-			Bplayer = new Player(b_depth, Board.B);
-			Wplayer = new Player(w_depth, Board.W);
 		} catch(Exception e) {
 			System.out.println("Player depth values *have* to be positive integers :P");
 			return;
 		}
+		
+		Bplayer = new Player(b_depth, Board.B, 2, 2, 2, 2);
+		Wplayer = new Player(w_depth, Board.W);
 	
 		/* initializing the Move boards 
 		 * for human players*/

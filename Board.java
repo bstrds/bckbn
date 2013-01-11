@@ -738,9 +738,9 @@ public class Board {
 		for(int i=1; i<25; i++) {
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
-				bsum -= porta;
+				bsum += porta;
 			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
-				bsum += mono;
+				bsum -= mono;
 			}
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==W) {

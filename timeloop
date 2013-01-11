@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-for porta in $(seq 3 7)
+for porta in $(seq 2 7)
 do
-	for mono in $(seq 3 7)
+	for mono in $(seq 2 7)
 	do
-		for fagwma in $(seq 3 7)
+		for fagwma in $(seq 2 7)
 		do
-			for out in $(seq 3 7)
+			for out in $(seq 2 7)
 			do
 				count=0
 				for i in $(seq 1 $1)
 				do
 					x=`java Test3 $porta $mono $fagwma $out`
 					#echo "$x"
-					if [ "$x" == "White Wins!" ]; then
+					if [ "$x" == "Black Wins!" ]; then
 						((count++))
 					fi
 				done
