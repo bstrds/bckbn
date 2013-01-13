@@ -29,7 +29,7 @@ public class Test {
 			return;
 		}
 		
-		Bplayer = new Player(b_depth, Board.B, 2, 2, 2, 2);
+		Bplayer = new Player(b_depth, Board.B);
 		Wplayer = new Player(w_depth, Board.W);
 	
 		/* initializing the Move boards 

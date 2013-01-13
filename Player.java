@@ -13,7 +13,7 @@ public class Player {
 	private byte d1;
 	private byte d2;
 	
-	private int porta, mono, fagwma, out;
+	//private int porta, mono, fagwma, out;
 	
 	public Player() {
 		
@@ -27,10 +27,7 @@ public class Player {
 		this.playerColor = playerColor;
 	}
 	
-	public Player(byte maxDepth, byte playerColor, int porta, int mono, int fagwma, int out) {
-		
-		
-
+	/*public Player(byte maxDepth, byte playerColor, int porta, int mono, int fagwma, int out) {
 		
 		this.maxDepth = maxDepth;
 		this.playerColor = playerColor;
@@ -39,7 +36,7 @@ public class Player {
 		this.fagwma = fagwma;
 		this.out = out;
 		
-	}
+	}*/
 	
 	public void roll() {
 		
@@ -47,6 +44,7 @@ public class Player {
 		
 		this.d1 = (byte)(r.nextInt(6)+1);
 		this.d2 = (byte)(r.nextInt(6)+1);
+
 	}
 	
 	public byte getD1() {
@@ -309,16 +307,16 @@ public class Player {
 					
 					if(D1==D2) {
 						
-						if(playerColor==Board.B)
-							value += temp.evaluate_modie(porta, mono, fagwma, out)*2;
-						else if(playerColor==Board.W)
+						if(playerColor==Board.W)
+							value += temp.evaluate_modie()*2;
+						else if(playerColor==Board.B)
 							value += temp.evaluate()*2;
 						
 					} else {
 						
-						if(playerColor==Board.B)	
-							value += temp.evaluate_modie(porta, mono, fagwma, out);
-						else if(playerColor==Board.W) 
+						if(playerColor==Board.W)	
+							value += temp.evaluate_modie();
+						else if(playerColor==Board.B) 
 							value += temp.evaluate();
 					}
 				} else {
@@ -431,16 +429,16 @@ public class Player {
 					
 					if(D1==D2) {
 						
-						if(playerColor==Board.B)
-							value += temp.evaluate_modie(porta, mono, fagwma, out)*2;
-						else if(playerColor==Board.W);
+						if(playerColor==Board.W)
+							value += temp.evaluate_modie()*2;
+						else if(playerColor==Board.B);
 							value += temp.evaluate()*2;
 							
 					} else {
 						
-						if(playerColor==Board.B)
-							value += temp.evaluate_modie(porta, mono, fagwma, out);
-						else
+						if(playerColor==Board.W)
+							value += temp.evaluate_modie();
+						else if(playerColor==Board.B)
 							value += temp.evaluate();
 					}
 				} else {

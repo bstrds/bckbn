@@ -709,7 +709,6 @@ public class Board {
 		
 		if(positions[0].getNum()>0) {
 			wsum -= positions[0].getNum()*4;
-			bsum += positions[0].getNum()*4;
 		}
 		
 		if(positions[26].getNum()>0) {
@@ -718,7 +717,6 @@ public class Board {
 		
 		if(positions[25].getNum()>0) {
 			bsum -= positions[25].getNum()*4;
-			wsum += positions[25].getNum()*4;
 		}
 		
 		if(positions[27].getNum()>0) {
@@ -728,45 +726,56 @@ public class Board {
 		return bsum - wsum;
 	}
 	
-	public int evaluate_modie(int porta, int mono, int fagwma, int out) {
+	public int evaluate_modie() {
 		
-		//System.out.println(porta+fagwma+mono+out);
+		int wdub, walone, weaten, wout;
+		int bdub, balone, beaten, bout;
+		int dub, alone, eaten, out;
 		
-		int bsum = 0;
-		int wsum = 0;
+		wdub = walone = weaten = wout = 0;
+		bdub = balone = beaten = bout = 0;
+		dub = alone = eaten = out = 0;
 		
 		for(int i=1; i<25; i++) {
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
-				bsum += porta;
+				bdub++;
 			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
-				bsum -= mono;
+				balone++;
 			}
 			
 			if(positions[i].getNum()>1 && positions[i].getCol()==W) {
-				wsum += porta;
+				wdub++;
 			} else if(positions[i].getNum()==1 && positions[i].getCol()==W) {
-				wsum -= mono;
+				walone++;
 			}
 		}
 		
 		if(positions[0].getNum()>0) {
-			wsum -= positions[0].getNum()*fagwma;
+			weaten += positions[0].getNum();
 		}
 		
 		if(positions[26].getNum()>0) {
-			wsum += positions[26].getNum()*out;
+			wout += positions[26].getNum();
 		}
 		
 		if(positions[25].getNum()>0) {
-			bsum -= positions[25].getNum()*fagwma;
+			beaten += positions[25].getNum();
 		}
 		
 		if(positions[27].getNum()>0) {
-			bsum -= positions[27].getNum()*out;
+			bout += positions[27].getNum();
 		}
 		
-		return bsum - wsum;
+		dub = bdub - wdub;
+		alone = balone - walone;
+		eaten = beaten - weaten;
+		out = bout - wout;
+		
+		//System.out.println(dub+","+alone+","+eaten+","+out+","+(dub+alone+eaten+out));
+		
+		
+		return dub+alone+eaten+out;
 	}
 	
 	public boolean isTerminal() {

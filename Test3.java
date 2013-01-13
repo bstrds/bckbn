@@ -9,7 +9,7 @@ public class Test3 {
 			int_args[i] = Integer.parseInt(args[i]);
 		}
 		
-		Player Bplayer = new Player((byte)2, Board.B, int_args[0], int_args[1], int_args[2], int_args[3]);
+		Player Bplayer = new Player((byte)2, Board.B);
 		Player Wplayer = new Player((byte)2, Board.W);
 		
 		Board b = new Board();
