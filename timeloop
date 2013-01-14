@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
+if [ $# -ne 1 ]; then 
+	echo "Usage : ./timeloop [num_of_games]"
+	exit 0
+fi
+
 count=0
 
 for i in $(seq 1 $1)
 do
-	x=`java Test3`
-	echo "$x"
+	x=`java Bg_stripped`
+	#echo "$x"
 	if [ "$x" == "White Wins!" ]; then
 		((count++))
 	fi
+	echo "[$count::$i]"
 done
 
 echo "$count white wins in $1 games"

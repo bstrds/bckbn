@@ -1,5 +1,10 @@
+//Αθανάσιος Τσιακούλιας Μανέττας - 3100190, Γιώργος Κυπριανίδης - 3100225
 
 public class Move {
+	
+	/* a simple class that produces 
+	 * Move objects
+	 */
 	
 	private byte from;
 	private byte to;

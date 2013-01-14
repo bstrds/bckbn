@@ -1,3 +1,5 @@
+//Αθανάσιος Τσιακούλιας Μανέττας - 3100190, Γιώργος Κυπριανίδης - 3100225
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -5,9 +7,11 @@ import java.util.Random;
 
 public class Player {
     
-	public static final int MAX = 1;
-	public static final int MIN = -1;
+	//public static final int MAX = 1;
+	//public static final int MIN = -1;
 	public static final int NEWBOARD = new Board().hashCode();
+	private static final Board INITB = new Board();
+	
 	private byte maxDepth;
 	private byte playerColor;
 	private byte d1;
@@ -50,11 +54,20 @@ public class Player {
 	
 	public Move[] inputMove(Board b) {
 		
+		/* basic function to read a move from
+		 * the standard input, and pass it to 
+		 * main to be played on the board. 
+		 * maintains a temporary board, so that
+		 * the move (if legal) can be displayed 
+		 * on the screen before it is actually 
+		 * played on the main game board.
+		 */
+		
 		if(b.getChildren(d1, d2, playerColor).isEmpty()) {
 			if(playerColor==Board.W)
-				System.out.println("White rolled "+d1+" and "+d2+" , but it's not very effective..");
+				System.out.println("/n/nWhite rolled "+d1+" and "+d2+" , but it's not very effective../n/n");
 			else 
-				System.out.println("Black rolled "+d1+" and "+d2+" , but it's not very effective..");
+				System.out.println("/n/nBlack rolled "+d1+" and "+d2+" , but it's not very effective../n/n");
 			return null;
 		}
 			
@@ -94,8 +107,6 @@ public class Player {
 				System.out.println("White rolled "+d1+" and "+d2+" .");
 			else 
 				System.out.println("Black rolled "+d1+" and "+d2+" .");
-			
-			//Position[] tempP = tempB.getPositions();
 			
 			/* checking if we are in lastrun mode */
 			boolean lastrun = tempB.lastrun(playerColor);
@@ -152,9 +163,8 @@ public class Player {
 					}
 					
 				} catch(Exception e) {
-					
+	
 					System.out.println("\nTry again3.\n");
-					//e.printStackTrace();
 				}
 			}
 			gotit = false;
@@ -173,15 +183,18 @@ public class Player {
 	
 	public Board MiniMax(Board b, byte d1, byte d2) {
 		
-		
+		/* an implementation of the expectiminimax
+		 * algorithm. min() and  max() recursively
+		 * call each other until the maximum depth
+		 * is reached.
+		 */
 		
 		if(playerColor==Board.B) {
 			
 			Board max = max(new Board(b), 0, d1 ,d2);
 			
 			/* if there are no legal moves to be played */
-			if(max.hashCode()==NEWBOARD) {
-				//System.out.println("\n\nFUUUUU\n\n");
+			if(max.hashCode()==NEWBOARD && max.equals(INITB)) {
 				return b;
 			} else {
 				return max;
@@ -192,8 +205,7 @@ public class Player {
 			Board min = min(new Board(b), 0, d1, d2);
 			
 			/* if there are no legal moves to be played */
-			if(min.hashCode()==NEWBOARD) {
-				//System.out.println("\n\nFUUUUU\n\n");
+			if(min.hashCode()==NEWBOARD && min.equals(INITB)) {
 				return b;
 			} else {
 				return min;

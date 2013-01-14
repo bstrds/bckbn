@@ -1,5 +1,15 @@
+//Αθανάσιος Τσιακούλιας Μανέττας - 3100190, Γιώργος Κυπριανίδης - 3100225
 
 public class Position {
+	
+	/* a simple class to describe a
+	 * position on a backgammon board.
+	 * each position object only needs 
+	 * to store the number of checkers 
+	 * it contains, and their color,
+	 * since it's impossible for a 
+	 * single position to contain checkers
+	 * of different colors in this game */
 	
 	private int color;
 	private byte numOfPills;
