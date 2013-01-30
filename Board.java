@@ -808,25 +808,25 @@ public class Board {
 		if(positions[0].getNum()>0) {
 			System.out.print("eaten pills : \u001B[1m\u001B[35m<w"+positions[0].getNum()+"> \u001B[0m");
 		} else {
-			System.out.print("eaten pills : \u001B[1m\u001B[36m<  > \u001B[0m");
+			System.out.print("eaten pills : \u001B[1m\u001B[30m<  > \u001B[0m");
 		}
 		
 		if(positions[25].getNum()>0) {
 			System.out.println("\u001B[1m\u001B[32m<b"+positions[25].getNum()+">\u001B[0m");
 		} else {
-			System.out.println("\u001B[1m\u001B[36m<  >\u001B[0m");
+			System.out.println("\u001B[1m\u001B[30m<  >\u001B[0m");
 		}
 		
 		if(positions[26].getNum()>0) {
 			System.out.print("pills out : \u001B[1m\u001B[35m<w"+positions[26].getNum()+"> \u001B[0m");
 		} else {
-			System.out.print("pills out : \u001B[1m\u001B[36m<  > \u001B[0m");
+			System.out.print("pills out : \u001B[1m\u001B[30m<  > \u001B[0m");
 		}
 		
 		if(positions[27].getNum()>0) {
 			System.out.println("\u001B[1m\u001B[32m<b"+positions[27].getNum()+">\u001B[0m");
 		} else {
-			System.out.println("\u001B[1m\u001B[36m<  >\u001B[0m");
+			System.out.println("\u001B[1m\u001B[30m<  >\u001B[0m");
 		}
 		
 		System.out.println("             26   27");
@@ -837,7 +837,7 @@ public class Board {
 	private void printHelp(int i) {
 	
 		if(positions[i].getCol()==EMPTY) {
-				System.out.print("\u001B[1m\u001B[36m<  >\u001B[0m");
+				System.out.print("\u001B[1m\u001B[30m<  >\u001B[0m");
 		} else {
 			if(positions[i].getCol()==W) {
 				System.out.print("\u001B[1m\u001B[35m<w"+positions[i].getNum()+">\u001B[0m");
