@@ -770,61 +770,6 @@ public class Board {
 		return bsum - wsum;
 	}
 
-<<<<<<< HEAD
-=======
-	public int evaluate_modie() {
-
-		int wdub, walone, weaten, wout;
-		int bdub, balone, beaten, bout;
-		int dub, alone, eaten, out;
-
-		wdub = walone = weaten = wout = 0;
-		bdub = balone = beaten = bout = 0;
-		dub = alone = eaten = out = 0;
-
-		for(int i=1; i<25; i++) {
-
-			if(positions[i].getNum()>1 && positions[i].getCol()==B) {
-				bdub++;
-			} else if(positions[i].getNum()==1 && positions[i].getCol()==B) {
-				balone++;
-			}
-
-			if(positions[i].getNum()>1 && positions[i].getCol()==W) {
-				wdub++;
-			} else if(positions[i].getNum()==1 && positions[i].getCol()==W) {
-				walone++;
-			}
-		}
-
-		if(positions[0].getNum()>0) {
-			weaten += positions[0].getNum();
-		}
-
-		if(positions[26].getNum()>0) {
-			wout += positions[26].getNum();
-		}
-
-		if(positions[25].getNum()>0) {
-			beaten += positions[25].getNum();
-		}
-
-		if(positions[27].getNum()>0) {
-			bout += positions[27].getNum();
-		}
-
-		dub = bdub - wdub;
-		alone = balone - walone;
-		eaten = beaten - weaten;
-		out = bout - wout;
-
-		//System.out.println(dub+","+alone+","+eaten+","+out+","+(dub+alone+eaten+out));
-
-
-		return dub+alone+eaten+out;
-	}
-
->>>>>>> mach
 	public boolean isTerminal() {
 
 		/* simple check to see if a state
@@ -858,12 +803,7 @@ public class Board {
 
 		System.out.println("\n");
 		System.out.println("                0   25");
-<<<<<<< HEAD
-		System.out.println("eaten pills : <w"+positions[0].getNum()+
-						   "> <b"+positions[25].getNum()+">");
-		System.out.println("pills out : <w"+positions[26].getNum()+
-						   "> <b"+positions[27].getNum()+">");
-=======
+
 		if(positions[0].getNum()>0) {
 			System.out.print("eaten pills : \u001B[1m\u001B[35m<w"+positions[0].getNum()+"> \u001B[0m");
 		} else {
@@ -888,7 +828,6 @@ public class Board {
 			System.out.println("\u001B[1m\u001B[30m<  >\u001B[0m");
 		}
 
->>>>>>> mach
 		System.out.println("             26   27");
 
 
