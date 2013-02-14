@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+<<<<<<< HEAD
 if [ $# -ne 1 ]; then 
 	echo "Usage : ./timeloop [num_of_games]"
 	exit 0
@@ -18,3 +19,26 @@ do
 done
 
 echo "$count white wins in $1 games"
+=======
+for porta in $(seq 2 7)
+do
+	for mono in $(seq 2 7)
+	do
+		for fagwma in $(seq 2 7)
+		do
+			for out in $(seq 2 7)
+			do
+				count=0
+				for i in $(seq 1 $1)
+				do
+					x=`java Bg_stripped $porta $mono $fagwma $out`
+					if [ "$x" == "Black Wins!" ]; then
+						((count++))
+					fi
+				done
+				echo "$porta,$mono,$fagwma,$out,$count"
+			done
+		done
+	done
+done	
+>>>>>>> mach
