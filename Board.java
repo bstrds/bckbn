@@ -1,4 +1,4 @@
-//Αθανάσιος Τσιακούλιας Μανέττας - 3100190, Γιώργος Κυπριανίδης - 3100225
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
